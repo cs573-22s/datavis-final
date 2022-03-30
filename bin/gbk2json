@@ -1,0 +1,5 @@
+# pip3 install genome2json
+# g2j -h
+
+g2j -gbk JRIV01.1.gbff -o JRIV01.1.json
+
