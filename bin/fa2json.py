@@ -16,4 +16,4 @@ with open("/Users/sjtrauber/Documents/WPI/DataVis/assignments/final/datavis-fina
 
 my_json = json.dumps(my_dict)  # maybe use json.dump directly to a file (use pretty print option, eg. indent=2)?
 
-with open('FEY_2_All7_final.json', 'w') as f: json.dump(my_dict, f, indent=2)
+with open('/Users/sjtrauber/Documents/WPI/DataVis/assignments/final/datavis-final/data/FEY_2_All7_final.json', 'w') as f: json.dump(my_dict, f, indent=2)
