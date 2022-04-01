@@ -1,0 +1,108 @@
+\documentclass{proc}
+
+\begin{document}
+
+\title{Network Visualization}
+
+\author{Sarah Weintraub, Aidan Pecorale }
+
+\maketitle
+
+\section{Introduction}
+
+Network visualizations are notoriously difficult to parse and extract relevant biological information from multi-omics datasets. By creating a multilayer network will allow researchers to sort not only by annotation, but by clutered trends as well. Currently, this type of search is done with two excel sheets and manually search through clusters of interest and then switching sheets to that cluster and filtering through by annotation of interest. This visualization will provide ease of access to search the entire trasncriptome for annotation as well as creating easier access per cluster.
+
+\section{One-sentence description}
+
+We aim to build a tool for network visualization using RNA-Seq transcriptomic data.
+
+\section{Project Type}
+
+Visualization / Application
+
+\section{Audience} 
+\begin{quote}
+\textit{Who is the audience for this project? 
+How does it meet their needs? 
+What happens if their needs remain unmet?}
+\end{quote}
+
+Scientists looking at multi-omic datasets is the audience - specifically, this tool can be implemented for anyone looking at transcriptomic data. It can be used to elucidate meaning from individual RNA-seq datasets as well as for comparison across organisms for comparative genomics. 
+
+\section{Approach}
+\subsection{Details}
+\begin{quote}
+\textit{What is your approach?}
+\end{quote}
+
+We plan to use d3 to implement the multilayer network. The first layer will be the trends for each node/cluster with the connection strength, and the second layer to be the count, FC, and annotation information for each gene in the cluster. 
+
+\subsection{Evidence for Success}
+\begin{quote}
+\textit{Why do you think it will work?} 
+\end{quote}
+
+We have all the data for this to work, as long as we can implement our ideas into d3, it should work. The papers below show similar visualization with less interactivity, and with our technical experience in making interactive charts, we are confident we will be able to accomplish this task.
+
+\section{Best-case Impact Statement}
+\begin{quote}
+\textit{In the best-case scenario, what would be the impact statement (conclusion statement) for this project? \cite{wijk2005value, pike2009science}}
+\end{quote}
+
+We set out to build an interactive multilater network tool for multi-omics analysis.
+
+\section{Major Milestones}
+
+1. Format data
+2. Build skeleton multilayer network
+3. Add interactivity
+4. Add search tools
+5. Add in big datasets
+6. Make tool publicly available
+
+\section{Obstacles}
+
+One obstacle will be the large datasets, but if this is unavailable, we plan to parse down our data to make analysis easier.
+
+Search individual nodes versus the entire network could also prove difficult as we have not done this before.
+
+\subsection{Major obstacles} % (if these fail, the project is over)
+
+Building a multilayer network.
+
+\subsection{Minor obstacles}
+
+
+
+\section{Resources Needed}
+\begin{quote}
+\textit{What additional resources do you need to complete this project?}
+\end{quote}
+
+We're not sure, but if the genomes are too big to run on our computers, we can use Turing to align/visualize them.
+
+\section{5 Related Publications}
+\begin{quote}
+\textit{List 5 major publications that are most relevant to this project, and how they are related (sample citation \cite{wijk2005value}).}
+\end{quote}
+
+https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0159161
+
+https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-021-04500-1
+
+https://vdl.sci.utah.edu/publications/2019_eurovis_mvn/
+
+https://onlinelibrary.wiley.com/doi/full/10.1111/cgf.13610
+
+
+
+\section{Define Success}
+\begin{quote}
+\textit{What is the minimum amount of work necessary for this work be publishable?}
+\end{quote}
+
+Building an interactive multilayer network showing trends of each cluster and then more detail when zoomed in is the minimum to be published and used regularly by labs. Even just an interactive network showing trends of clusters could be useful to labs when studying omics data.
+
+\bibliographystyle{abbrv}
+\bibliography{prospectus}
+\end{document}

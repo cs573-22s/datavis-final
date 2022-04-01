@@ -1,4 +1,4 @@
-tex	 	= 	prospectus.tex
+tex	 	= 	prospectus_network.tex
 bib 	=  	$(tex:.tex=.bib)
 aux 	= 	$(tex:.tex=.aux)
 
