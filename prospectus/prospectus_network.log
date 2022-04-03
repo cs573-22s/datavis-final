@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2022.4.3)  3 APR 2022 17:50
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2022.4.3)  3 APR 2022 17:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -59,34 +59,46 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 ]
 
-! LaTeX Error: \begin{itemize} on input line 77 ended by \end{(}.
+LaTeX Warning: Citation `Emmons2016' on page 2 undefined on input line 105.
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.81 \end(
-          itemize)
-? exit
- 
+
+LaTeX Warning: Citation `Wandy2021' on page 2 undefined on input line 106.
+
+
+LaTeX Warning: Citation `Nobre2019' on page 2 undefined on input line 107.
+
+
+LaTeX Warning: Citation `McGee2019' on page 2 undefined on input line 108.
+
+
+LaTeX Warning: Citation `Shannon2003' on page 2 undefined on input line 109.
+
+No file prospectus_network.bbl.
+[2] (./prospectus_network.aux)
+
+LaTeX Warning: There were undefined references.
+
+ ) 
 Here is how much of TeX's memory you used:
- 418 strings out of 480445
- 7573 string characters out of 5892392
- 296076 words of memory out of 5000000
- 17764 multiletter control sequences out of 15000+600000
- 408058 words of font info for 42 fonts, out of 8000000 for 9000
+ 422 strings out of 480445
+ 7504 string characters out of 5892392
+ 297076 words of memory out of 5000000
+ 17765 multiletter control sequences out of 15000+600000
+ 408366 words of font info for 43 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
  58i,8n,64p,618b,179s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2021basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.
-pfb></usr/local/texlive/2021basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
-10.pfb></usr/local/texlive/2021basic/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmr12.pfb></usr/local/texlive/2021basic/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmr17.pfb></usr/local/texlive/2021basic/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmti10.pfb>
-Output written on prospectus_network.pdf (1 page, 70182 bytes).
+ </Users/sjtrauber/Library/texlive/2021basic/texmf-var/fonts/pk/ljfour/jknapp
+en/ec/tcrm1000.600pk></usr/local/texlive/2021basic/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2021basic/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2021basic/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2021basic/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2021basic/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2021basic/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on prospectus_network.pdf (2 pages, 86148 bytes).
 PDF statistics:
- 28 PDF objects out of 1000 (max. 8388607)
- 19 compressed objects within 1 object stream
+ 40 PDF objects out of 1000 (max. 8388607)
+ 28 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
