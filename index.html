@@ -45,14 +45,20 @@
       .call(d3.axisLeft(y));
     
     // Bars
-    svg.selectAll("mybar")
-      .data(data)
-      .join("rect")
-        .attr("x", d => x(d.condition))
-        .attr("y", d => y(d.MEblue))
-        .attr("width", x.bandwidth())
-        .attr("height", d => y(d.MEblue))
-        .attr("fill", "#69b3a2")
-    
+        svg.selectAll("mybar")
+            .data(data)
+            .join("rect")
+            .attr("x", d => x(d.condition))
+            .attr("y", d => {
+                if (d.MEblue < 0) {
+                    return height/2;
+                } else {
+                    return height/2 - y(d.MEblue)
+                }
+
+            })
+            .attr("width", x.bandwidth())
+            .attr("height", d => y(Math.abs(d.MEblue)))
+            .attr("fill", "#69b3a2")
     })
     </script>
