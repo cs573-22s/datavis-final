@@ -53,12 +53,11 @@
                 if (d.MEblue < 0) {
                     return height/2;
                 } else {
-                    return height/2 - y(d.MEblue)
+                    return y(d.MEblue)
                 }
-
             })
             .attr("width", x.bandwidth())
-            .attr("height", d => y(Math.abs(d.MEblue)))
+            .attr("height", d => height - y(Math.abs(d.MEblue)) - height/2)
             .attr("fill", "#69b3a2")
     })
     </script>
