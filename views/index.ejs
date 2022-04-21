@@ -12,6 +12,321 @@
 <!--<div id="my_dataviz"></div>-->
 <svg width=1000 height=800></svg>
 <script defer>
+
+    const color = d3.scaleOrdinal()
+        .range(['blue', 'brown', 'grey', 'turquoise'])
+    d3.json('./data/colorLink.json').then(async function(data){
+        console.log(data);
+        await buildNetwork(data);
+        buildChart1();
+        buildChart2();
+        buildChart3();
+        buildChart4();
+    })
+
+    function buildNetwork(data){
+        var svg = d3.select('svg');
+        var height = +svg.attr('height');
+        var width = +svg.attr('width');
+
+        // simulation definition
+        var simulation = d3.forceSimulation(data.nodes)
+            .force('link', d3.forceLink(data.links).id(d => d.id).distance(450))
+            .force('charge', d3.forceManyBody().strength(d => d.weight * 1000))
+            .force('center', d3.forceCenter(width / 2, height / 2))
+            //.force('x', d3.forceX(d => d.group == 1 ? -100: 0))
+        // drawing nodes and links
+        var link = svg.append('g')
+            .selectAll('line')
+            .data(data.links)
+            .enter().append('line')
+            .attr('stroke-width', d => Math.sqrt(d.weight*16))
+            .attr('stroke', '#999')
+            .attr('stroke-opacity', 0.6)
+
+        var node = svg.append('g')
+            .selectAll('svg')
+            .data(data.nodes)
+            .enter().append('svg')
+            .attr('width', 300)
+            .attr('height', 300)
+            //.attr('r', 8)
+            .attr('fill', d => color(d.group))
+            .attr('stroke', '#fff')
+            .attr('stroke-width', 1.5)
+            .attr('id', d => d.id)
+            .call(drag(simulation))
+
+
+
+        node.append('title')
+            .text( d => d.id );
+
+
+
+        // use simulation to update nodes and links
+        simulation.on('tick', function () {
+            link
+                .attr('x1', d => d.source.x)
+                .attr('y1', d => d.source.y)
+                .attr('x2', d => d.target.x)
+                .attr('y2', d => d.target.y)
+
+            node
+                .attr('x', d => d.x - 100)
+                .attr('y', d => d.y - 100)
+
+
+
+        })
+        function drag(simulation) {
+            function dragstarted(event) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                event.subject.fx = event.subject.x;
+                event.subject.fy = event.subject.y;
+            }
+
+            function dragged(event) {
+                event.subject.fx = event.x;
+                event.subject.fy = event.y;
+            }
+
+            function dragended(event) {
+                if (!event.active) simulation.alphaTarget(0);
+                event.subject.fx = null;
+                event.subject.fy = null;
+            }
+
+            return d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended);
+        }
+    }
+
+    function buildChart1() {
+        // set the dimensions and margins of the graph
+        const marginCharts = {top: 10, right: 10, bottom: 40, left: 40},
+            widthCharts = 300 - marginCharts.left - marginCharts.right,
+            heightCharts = 300 - marginCharts.top - marginCharts.bottom;
+
+
+        // append the svg object to the body of the page
+        const blueSVG = d3.select("#MEblue")
+            //.append("svg")
+            //.attr("width", widthCharts + marginCharts.left + marginCharts.right)
+            //.attr("height", heightCharts + marginCharts.top + marginCharts.bottom)
+            .append("g")
+            .attr("transform", `translate(${marginCharts.left},${marginCharts.top})`);
+
+
+        // Parse the Data
+        d3.csv("./data/dsMEs.csv").then(function (data) {
+
+            // X axis
+            const x = d3.scaleBand()
+                .range([0, widthCharts])
+                .domain(data.map(d => d.condition))
+                .padding(0.2);
+            blueSVG.append("g")
+                .attr("transform", `translate(0, ${heightCharts})`)
+                .call(d3.axisBottom(x))
+                .selectAll("text")
+                .attr("transform", "translate(-10,0)rotate(-45)")
+                .style("text-anchor", "end");
+
+            // Add Y axis
+            const y = d3.scaleLinear()
+                .domain([-0.5, 0.5])
+                .range([heightCharts, 0]);
+            blueSVG.append("g")
+                .call(d3.axisLeft(y));
+
+            // Bars
+            blueSVG.selectAll("mybar")
+                .data(data)
+                .join("rect")
+                .attr("x", d => x(d.condition))
+                .attr("y", d => {
+                    if (d.MEblue < 0) {
+                        return heightCharts / 2;
+                    } else {
+                        return y(d.MEblue)
+                    }
+                })
+                .attr("width", x.bandwidth())
+                .attr("height", d => heightCharts - y(Math.abs(d.MEblue)) - heightCharts / 2)
+                .attr("fill", "#69b3a2")
+        })
+    }
+    function buildChart2() {
+        // set the dimensions and margins of the graph
+        const marginCharts = {top: 10, right: 10, bottom: 40, left: 40},
+            widthCharts = 300 - marginCharts.left - marginCharts.right,
+            heightCharts = 300 - marginCharts.top - marginCharts.bottom;
+
+
+        // append the svg object to the body of the page
+        const blueSVG = d3.select("#MEbrown")
+            //.append("svg")
+            //.attr("width", widthCharts + marginCharts.left + marginCharts.right)
+            //.attr("height", heightCharts + marginCharts.top + marginCharts.bottom)
+            .append("g")
+            .attr("transform", `translate(${marginCharts.left},${marginCharts.top})`);
+
+
+        // Parse the Data
+        d3.csv("./data/dsMEs.csv").then(function (data) {
+
+            // X axis
+            const x = d3.scaleBand()
+                .range([0, widthCharts])
+                .domain(data.map(d => d.condition))
+                .padding(0.2);
+            blueSVG.append("g")
+                .attr("transform", `translate(0, ${heightCharts})`)
+                .call(d3.axisBottom(x))
+                .selectAll("text")
+                .attr("transform", "translate(-10,0)rotate(-45)")
+                .style("text-anchor", "end");
+
+            // Add Y axis
+            const y = d3.scaleLinear()
+                .domain([-0.5, 0.5])
+                .range([heightCharts, 0]);
+            blueSVG.append("g")
+                .call(d3.axisLeft(y));
+
+            // Bars
+            blueSVG.selectAll("mybar")
+                .data(data)
+                .join("rect")
+                .attr("x", d => x(d.condition))
+                .attr("y", d => {
+                    if (d.MEbrown < 0) {
+                        return heightCharts / 2;
+                    } else {
+                        return y(d.MEbrown)
+                    }
+                })
+                .attr("width", x.bandwidth())
+                .attr("height", d => heightCharts - y(Math.abs(d.MEbrown)) - heightCharts / 2)
+                .attr("fill", "#69b3a2")
+        })
+    }
+    function buildChart3() {
+        // set the dimensions and margins of the graph
+        const marginCharts = {top: 10, right: 10, bottom: 40, left: 40},
+            widthCharts = 300 - marginCharts.left - marginCharts.right,
+            heightCharts = 300 - marginCharts.top - marginCharts.bottom;
+
+
+        // append the svg object to the body of the page
+        const blueSVG = d3.select("#MEgrey")
+            //.append("svg")
+            //.attr("width", widthCharts + marginCharts.left + marginCharts.right)
+            //.attr("height", heightCharts + marginCharts.top + marginCharts.bottom)
+            .append("g")
+            .attr("transform", `translate(${marginCharts.left},${marginCharts.top})`);
+
+
+        // Parse the Data
+        d3.csv("./data/dsMEs.csv").then(function (data) {
+
+            // X axis
+            const x = d3.scaleBand()
+                .range([0, widthCharts])
+                .domain(data.map(d => d.condition))
+                .padding(0.2);
+            blueSVG.append("g")
+                .attr("transform", `translate(0, ${heightCharts})`)
+                .call(d3.axisBottom(x))
+                .selectAll("text")
+                .attr("transform", "translate(-10,0)rotate(-45)")
+                .style("text-anchor", "end");
+
+            // Add Y axis
+            const y = d3.scaleLinear()
+                .domain([-0.5, 0.5])
+                .range([heightCharts, 0]);
+            blueSVG.append("g")
+                .call(d3.axisLeft(y));
+
+            // Bars
+            blueSVG.selectAll("mybar")
+                .data(data)
+                .join("rect")
+                .attr("x", d => x(d.condition))
+                .attr("y", d => {
+                    if (d.MEgrey < 0) {
+                        return heightCharts / 2;
+                    } else {
+                        return y(d.MEgrey)
+                    }
+                })
+                .attr("width", x.bandwidth())
+                .attr("height", d => heightCharts - y(Math.abs(d.MEgrey)) - heightCharts / 2)
+                .attr("fill", "#69b3a2")
+        })
+    }
+    function buildChart4() {
+        // set the dimensions and margins of the graph
+        const marginCharts = {top: 10, right: 10, bottom: 40, left: 40},
+            widthCharts = 300 - marginCharts.left - marginCharts.right,
+            heightCharts = 300 - marginCharts.top - marginCharts.bottom;
+
+
+        // append the svg object to the body of the page
+        const blueSVG = d3.select("#MEturquoise")
+            //.append("svg")
+            //.attr("width", widthCharts + marginCharts.left + marginCharts.right)
+            //.attr("height", heightCharts + marginCharts.top + marginCharts.bottom)
+            .append("g")
+            .attr("transform", `translate(${marginCharts.left},${marginCharts.top})`);
+
+
+        // Parse the Data
+        d3.csv("./data/dsMEs.csv").then(function (data) {
+
+            // X axis
+            const x = d3.scaleBand()
+                .range([0, widthCharts])
+                .domain(data.map(d => d.condition))
+                .padding(0.2);
+            blueSVG.append("g")
+                .attr("transform", `translate(0, ${heightCharts})`)
+                .call(d3.axisBottom(x))
+                .selectAll("text")
+                .attr("transform", "translate(-10,0)rotate(-45)")
+                .style("text-anchor", "end");
+
+            // Add Y axis
+            const y = d3.scaleLinear()
+                .domain([-0.5, 0.5])
+                .range([heightCharts, 0]);
+            blueSVG.append("g")
+                .call(d3.axisLeft(y));
+
+            // Bars
+            blueSVG.selectAll("mybar")
+                .data(data)
+                .join("rect")
+                .attr("x", d => x(d.condition))
+                .attr("y", d => {
+                    if (d.MEturquoise < 0) {
+                        return heightCharts / 2;
+                    } else {
+                        return y(d.MEturquoise)
+                    }
+                })
+                .attr("width", x.bandwidth())
+                .attr("height", d => heightCharts - y(Math.abs(d.MEturquoise)) - heightCharts / 2)
+                .attr("fill", "#69b3a2")
+        })
+    }
+
+</script>
+<!--<script defer>
     const color = d3.scaleOrdinal()
         .range(['blue', 'brown', 'grey', 'turquoise'])
     d3.json('./data/nodeLinkJSON2.json').then(function(data){
@@ -94,7 +409,7 @@
         }
     }
 
-</script>
+</script>-->
 <!--<script defer>
 
     // set the dimensions and margins of the graph

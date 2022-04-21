@@ -1,0 +1,16 @@
+{
+  "nodes": [
+    { "id": "MEblue", "group": 1},
+    { "id": "MEbrown", "group":  2},
+    { "id": "MEgrey", "group":  3},
+    { "id": "MEturquoise", "group": 4}
+  ],
+  "links": [
+    { "source": "MEblue", "target": "MEbrown",  "weight": -0.45 },
+    { "source": "MEblue", "target": "MEgrey", "weight": -0.39 },
+    { "source": "MEblue",   "target": "MEturquoise",  "weight": -0.84 },
+    { "source": "MEbrown", "target": "MEgrey",  "weight": 0.48 },
+    { "source": "MEbrown",  "target": "MEturquoise",  "weight": 0.031 },
+    { "source": "MEgrey",  "target": "MEturquoise",  "weight": 0.26 }
+  ]
+}
