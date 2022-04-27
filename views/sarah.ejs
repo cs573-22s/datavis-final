@@ -5,10 +5,10 @@
 <script src="https://d3js.org/d3.v6.js"></script>
 
 <!-- Create a div where the graph will take place -->
-<div id="my_datavizblue"></div>
-<div id="my_datavizgrey"></div>
-<div id="my_datavizturquoise"></div>
-<div id="my_datavizbrown"></div>
+<svg id="my_datavizblue"></svg>
+<svg id="my_datavizgrey"></svg>
+<svg id="my_datavizturquoise"></svg>
+<svg id="my_datavizbrown"></svg>
 
 <script>
 
@@ -20,13 +20,12 @@
   //Read the data
   let sumstat;
   let myGroups
+  let allKeys
   d3.csv("./data/ds_long.csv").then(async function(data) {
   
     // group the data: I want to draw one line per group
     await createSumstat(data)
-    makeGraphs()
-
-  })
+  }).then(function(data) {makeGraphs()})
 
   function createSumstat(data) {
     sumstat = d3.group(data, m => m.dsmoduleColors) // nest function allows to group the calculation per level of a factor
@@ -45,15 +44,12 @@
       console.log(selectName)
       // Add an svg element for each group. The will be one beside each other and will go on the next row when no more room available
       const svg = d3.select(selectName)
-              .selectAll("uniqueChart")
-              .data(i)
-              .enter()
-              .append("svg")
               .attr("width", width + margin.left + margin.right)
               .attr("height", height + margin.top + margin.bottom)
               .append("g")
               .attr("transform",
-                      `translate(${margin.left},${margin.top})`);
+                      `translate(${margin.left},${margin.top})`)
+
 
       const myVars = i.map(d => d.proteinId)
       console.log(myVars)
