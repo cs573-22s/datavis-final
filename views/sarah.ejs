@@ -20,16 +20,19 @@
   //Read the data
   let sumstat;
   let myGroups
-  d3.csv("./data/ds_long.csv").then( async function(data) {
+  d3.csv("./data/ds_long.csv").then(async function(data) {
   
     // group the data: I want to draw one line per group
+    await createSumstat(data)
+    makeGraphs()
+
+  })
+
+  function createSumstat(data) {
     sumstat = d3.group(data, m => m.dsmoduleColors) // nest function allows to group the calculation per level of a factor
     myGroups = data.map(d => d.condition)
     allKeys = new Set(data.map(m=>m.dsmoduleColors));
-
-  }).then(makeGraphs())
-
-
+  }
 
   function makeGraphs() {
     console.log(sumstat)
@@ -148,7 +151,7 @@
               .style("max-width", 400)
               .text("Heatmap of Debaryomyces subglobosis RNA-seq data across growth conditions");
     })
-    }
+  }
   // Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
 
   
