@@ -18,15 +18,23 @@
       height = 210 - margin.top - margin.bottom;
   
   //Read the data
-  d3.csv("./data/ds_long.csv").then( function(data) {
+  let sumstat;
+  let myGroups
+  d3.csv("./data/ds_long.csv").then( async function(data) {
   
     // group the data: I want to draw one line per group
-    const sumstat = d3.group(data, m => m.dsmoduleColors) // nest function allows to group the calculation per level of a factor
-    const myGroups = data.map(d => d.condition)
-    allKeys = new Set(data.map(m=>m.dsmoduleColors))
+    sumstat = d3.group(data, m => m.dsmoduleColors) // nest function allows to group the calculation per level of a factor
+    myGroups = data.map(d => d.condition)
+    allKeys = new Set(data.map(m=>m.dsmoduleColors));
+
+  }).then(makeGraphs())
+
+
+
+  function makeGraphs() {
     console.log(sumstat)
     sumstat.forEach((i, index) =>{
-    //for (let i = 0; i < sumstat.length - 1; i++) {
+      //for (let i = 0; i < sumstat.length - 1; i++) {
       // What is the list of groups?
       console.log(i)
 
@@ -55,7 +63,7 @@
               .style("font-size", 15)
               .attr("transform", `translate(0, ${height})`)
               .call(d3.axisBottom(x).tickSize(0))
-              //.select(".domain").remove()
+              .select(".domain").remove()
 
       // Build Y scales and axis:
       const y = d3.scaleBand()
@@ -65,7 +73,7 @@
       svg.append("g")
               .style("font-size", 15)
               .call(d3.axisLeft(y).tickSize(0))
-              //.select(".domain").remove()
+              .select(".domain").remove()
       // Build color scale
       const myColor = d3.scaleSequential()
               .interpolator(d3.interpolateRdBu)  // blue high, red low
@@ -140,7 +148,7 @@
               .style("max-width", 400)
               .text("Heatmap of Debaryomyces subglobosis RNA-seq data across growth conditions");
     })
-    })
+    }
   // Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
 
   
