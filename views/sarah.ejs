@@ -13,16 +13,17 @@
 <script>
 
   // set the dimensions and margins of the graph
-  const margin = {top: 30, right: 0, bottom: 30, left: 50},
+  const margin = {top: 80, right: 0, bottom: 30, left: 80},
       width = 810 - margin.left - margin.right,
-      height = 210 - margin.top - margin.bottom;
+      height = 810 - margin.top - margin.bottom;
   
   //Read the data
   let sumstat;
   let myGroups
   let allKeys
   d3.csv("./data/ds_longFull.csv").then(async function(data) {
-  
+        var max = d3.max(data, function(d) {return +d.expression;} );
+  console.log(max)
     // group the data: I want to draw one line per group
     await createSumstat(data)
   }).then(function(data) {makeGraphs()})
@@ -39,6 +40,8 @@
       //for (let i = 0; i < sumstat.length - 1; i++) {
       // What is the list of groups?
       console.log(i)
+
+
 
       let selectName = '#my_dataviz' + index;
       console.log(selectName)
@@ -64,6 +67,15 @@
               .call(d3.axisBottom(x).tickSize(0))
               .select(".domain").remove()
 
+
+console.log(myVars.length / 12)
+
+// i.forEach((s, index) =>{
+//         console.log(s.expression)
+// })
+
+// console.log(i[0].expression)
+
       // Build Y scales and axis:
       const y = d3.scaleBand()
               .range([ height, 0 ])
@@ -75,39 +87,39 @@
               .select(".domain").remove()
       // Build color scale
       const myColor = d3.scaleSequential()
-              .interpolator(d3.interpolateRdBu)  // blue high, red low
-              .domain([1,100])
+              .interpolator(d3.interpolateRdBu)  // red high, blue low
+              .domain([100.44,0])
       console.log('line 73')
-      // create a tooltip
-      const tooltip = d3.select(selectName)
-              .append("div")
-              .style("opacity", 0)
-              .attr("class", "tooltip")
-              .style("background-color", "white")
-              .style("border", "solid")
-              .style("border-width", "2px")
-              .style("border-radius", "5px")
-              .style("padding", "5px")
+//       // create a tooltip
+//       const tooltip = d3.select(selectName)
+//               .append("div")
+//               .style("opacity", 0)
+//               .attr("class", "tooltip")
+//               .style("background-color", "white")
+//               .style("border", "solid")
+//               .style("border-width", "2px")
+//               .style("border-radius", "5px")
+//               .style("padding", "5px")
 
-      // Three function that change the tooltip when user hover / move / leave a cell
-      const mouseover = function(event,d) {
-        tooltip
-                .style("opacity", 1)
-        d3.select(this)
-                .style("stroke", "black")
-                .style("opacity", 1)
-      }
-      const mousemove = function(event,d) {
-        tooltip.html("Normalized expression<br>for this gene is: " + d.expression)
-                .style("left", (event.x)/2 + "px")
-                .style("top", (event.y)/2 + "px")
-      }
-      const mouseleave = function(event,d) {
-        tooltip.style("opacity", 0)
-        d3.select(this)
-                .style("stroke", "none")
-                .style("opacity", 0.8)
-      }
+//       // Three function that change the tooltip when user hover / move / leave a cell
+//       const mouseover = function(event,d) {
+//         tooltip
+//                 .style("opacity", 1)
+//         d3.select(this)
+//                 .style("stroke", "black")
+//                 .style("opacity", 1)
+//       }
+//       const mousemove = function(event,d) {
+//         tooltip.html("Normalized expression<br>for this gene is: " + d.expression)
+//                 .style("left", (event.x)/2 + "px")
+//                 .style("top", (event.y)/2 + "px")
+//       }
+//       const mouseleave = function(event,d) {
+//         tooltip.style("opacity", 0)
+//         d3.select(this)
+//                 .style("stroke", "none")
+//                 .style("opacity", 0.8)
+//       }
 
       console.log('start add squares')
       // add the squares
@@ -124,36 +136,30 @@
               .style("stroke-width", 4)
               .style("stroke", "none")
               .style("opacity", 0.8)
-              .on("mouseover", mouseover)
-              .on("mousemove", mousemove)
-              .on("mouseleave", mouseleave)
+        //       .on("mouseover", mouseover)
+        //       .on("mousemove", mousemove)
+        //       .on("mouseleave", mouseleave)
 
       console.log('end add squares')
       // Add title to graph
       svg.append("text")
               .attr("x", 0)
-              .attr("y", -50)
-              .attr("text-anchor", "left")
-              .style("font-size", "22px")
-              .text("Debaryomyces subglobosis heatmap across conditions");
-
-      // Add subtitle to graph
-      svg.append("text")
-              .attr("x", 0)
               .attr("y", -20)
               .attr("text-anchor", "left")
-              .style("font-size", "14px")
-              .style("fill", "grey")
-              .style("max-width", 400)
-              .text("Heatmap of Debaryomyces subglobosis RNA-seq data across growth conditions");
+              .style("font-size", "22px")
+              .text("Module " + index + " with " + myVars.length / 12 + " genes");
+
+//       // Add subtitle to graph
+//       svg.append("text")
+//               .attr("x", 0)
+//               .attr("y", -20)
+//               .attr("text-anchor", "left")
+//               .style("font-size", "20px")
+//               .style("fill", "grey")
+//               .style("max-width", 400)
+//               .text("Heatmap of ");
     })
   }
-  // Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
-
-  
-
-  
-
   
   
   </script>
