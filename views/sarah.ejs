@@ -21,7 +21,7 @@
   let sumstat;
   let myGroups
   let allKeys
-  d3.csv("./data/ds_long.csv").then(async function(data) {
+  d3.csv("./data/ds_longFull.csv").then(async function(data) {
   
     // group the data: I want to draw one line per group
     await createSumstat(data)
