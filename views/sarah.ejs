@@ -32,37 +32,14 @@
         //         console.log(scale(data[i])); };
 
     sumstat = d3.group(data, m => m.dsmoduleColors)
-                // .select(sumstat).remove('grey')
 
     myGroups = data.map(d => d.condition)
     allKeys = new Set(data.map(m=>m.dsmoduleColors));
-    console.log(sumstat)
-
-//     var index = sumstat.index(function(o){
-//      return o.id === 'grey';
-// })
-// if (index !== -1) sumstat.splice(index, 1);
-
-//     for(i=0;i<sumstat.length;i++){
-//   if(sumstat[i].id === 'grey'){
-//     sumstat.splice(i--,1);
-//   }
-// }
-
-//     d3.select(sumstat.get("grey")).remove()
-//     console.log(sumstat.get("grey"))
-//     sumstat.forEach((i,index) => {
-//         if (console.log(index == 'grey')) { d3.select(index == 'grey').remove() }
-//     });
-    console.log(sumstat)
-
 
     sumstat.forEach((i, index) =>{
-      //for (let i = 0; i < sumstat.length - 1; i++) {
-      // What is the list of groups?
+            if (index === 'grey') { return;}
+
       console.log(i)
-
-
 
       let selectName = '#my_dataviz' + index;
       console.log(selectName)
@@ -97,7 +74,7 @@
 
 // console.log(i[0].expression)
 
-      // Build Y scales and axis:
+      // Build Y scales and axis
       const y = d3.scaleBand()
               .range([ height, 0 ])
               .domain(myVars)
