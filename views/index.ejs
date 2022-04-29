@@ -22,7 +22,8 @@
 <!--<svg width=1000 height=800></svg>-->
 <div id="filterDiv">
     <div id="filterForm">
-
+        <input type="checkbox" id="radioEcNum" name="radioEcNum" value="NA">
+        <label for="radioEcNum">Exclude NA from ecNum</label><br>
         <br>
         <button onclick="submitHandler()" id="reviewSubmit">Submit Filters</button>
     </div>
@@ -344,7 +345,24 @@
 
 </script>-->
 <script defer>
+    //"ecNum","definition","pathway","gotermID","gotermType","goAcc","kogID","kogdefine","kogClass","iprId","iprDesc",
+    // "...15","Feature","Record.Id","Function","GeneID"
     let listOfPathways;
+    let listOfecNum;
+    let listOfdefinition;
+    let listOfgotermID;
+    let listOfgotermType;
+    let listOfgoAcc;
+    let listOfkogID;
+    let listOfkogdefine;
+    let listOfkogClass;
+    let listOfiprId;
+    let listOfiprDesc;
+    let listOf15;
+    let listOfFeature;
+    let listOfRecordId;
+    let listOfFunction;
+    let listOfGeneID;
     const columns = ["","proteinId","cont","cont.1","cont.2","lowN","lowN.1","lowN.2","salt","salt.1","salt.2","lowFE","lowFE.1","lowFE.2","dsmoduleColors","MEblue","MEbrown","MEgrey","MEturquoise","ecNum","definition","pathway","gotermID","gotermType","goAcc","kogID","kogdefine","kogClass","iprId","iprDesc","...15","Feature","Record.Id","Function","GeneID"]
 
     callD3()
@@ -380,24 +398,60 @@
         return table;
     }
 
-    function callD3(pathway) {
+    //"ecNum","definition","pathway","gotermID","gotermType","goAcc","kogID","kogdefine","kogClass","iprId","iprDesc",
+    // "...15","Feature","Record.Id","Function","GeneID"
+    function callD3(ecNum, pathway) {
         d3.csv("./data/MM_ds_counts_annotation.csv").then(function (data) {
 
             let filteredData = data
             if (pathway) {
-                console.log('here')
-                filteredData = data.filter(function(d) {
-                    for (let pathOpt of pathway) {
-                        if (d["pathway"] == pathOpt) {
-                            return d;
+                if (pathway.length > 0) {
+                    filteredData = filteredData.filter(function(d) {
+                        for (let pathOpt of pathway) {
+                            if (d["pathway"] == pathOpt) {
+                                return d;
+                            }
                         }
+                    })
+                }
+            }
+            if (ecNum) {
+                filteredData = filteredData.filter(d => {
+                    if (d["ecNum"] !== 'NA') {
+                        return d;
                     }
                 })
             }
             console.log(filteredData)
             tabulate(filteredData,columns)
             listOfPathways = Array.from(new Set (data.map(d => d.pathway)))
-            console.log(listOfPathways)
+            console.log(listOfPathways) //82
+            //"ecNum","definition","pathway","gotermID","gotermType","goAcc","kogID","kogdefine","kogClass","iprId","iprDesc",
+            // "...15","Feature","Record.Id","Function","GeneID"
+            listOfecNum = Array.from(new Set (data.map(d => d.ecNum)))
+            console.log(listOfecNum) //388
+            listOfdefinition = Array.from(new Set (data.map(d => d.definition)))
+            console.log(listOfdefinition) //388
+            listOfgotermID = Array.from(new Set (data.map(d => d.gotermID)))
+            console.log(listOfgotermID) //1010
+            listOfgotermType = Array.from(new Set (data.map(d => d.gotermType)))
+            console.log(listOfgotermType) //1010
+            listOfgoAcc = Array.from(new Set (data.map(d => d.goAcc)))
+            console.log(listOfgoAcc) //1010
+            listOfkogID = Array.from(new Set (data.map(d => d.kogID)))
+            console.log(listOfkogID) //1689
+            listOfkogClass = Array.from(new Set (data.map(d => d.kogClass)))
+            console.log(listOfkogClass) //102
+            listOfiprId = Array.from(new Set (data.map(d => d.iprId)))
+            console.log(listOfiprId) //384
+            listOfiprDesc = Array.from(new Set (data.map(d => d.iprDesc)))
+            console.log(listOfiprDesc) //384
+            listOfFeature= Array.from(new Set (data.map(d => d.Feature)))
+            console.log(listOfFeature) //3269
+            listOfFunction= Array.from(new Set (data.map(d => d.Function)))
+            console.log(listOfFunction) //1607
+            listOfGeneID= Array.from(new Set (data.map(d => d.GeneID)))
+            console.log(listOfGeneID) //3269
             createFilters()
         })
     }
@@ -432,8 +486,13 @@
                 checkedCheckboxes.push(checkbox.value)
             }
         }
+        let ecNum = false;
+        if (document.getElementById('radioEcNum').checked) {
+            ecNum = true;
+        }
+
         console.log(checkedCheckboxes)
-        callD3(checkedCheckboxes)
+        callD3(ecNum, checkedCheckboxes)
     }
 
 </script>
