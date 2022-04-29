@@ -7,6 +7,10 @@
     table, th, td {
         border: 1px solid;
     }
+    table {
+        height: 80%;
+        overflow-y: auto;
+    }
 </style>
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v6.js"></script>
@@ -16,7 +20,14 @@
 <!-- Create a div where the graph will take place -->
 <!--<div id="my_dataviz"></div>-->
 <!--<svg width=1000 height=800></svg>-->
-<div id="tableDiv"></div>
+<div id="filterDiv">
+    <div id="filterForm">
+
+        <br>
+        <button onclick="submitHandler()" id="reviewSubmit">Submit Filters</button>
+    </div>
+</div>
+<div id="tableDiv" style="overflow-x: auto;"></div>
 <!--<script defer>
 
     const color = d3.scaleOrdinal()
@@ -333,7 +344,13 @@
 
 </script>-->
 <script defer>
-    var tabulate = function (data,columns) {
+    let listOfPathways;
+    const columns = ["","proteinId","cont","cont.1","cont.2","lowN","lowN.1","lowN.2","salt","salt.1","salt.2","lowFE","lowFE.1","lowFE.2","dsmoduleColors","MEblue","MEbrown","MEgrey","MEturquoise","ecNum","definition","pathway","gotermID","gotermType","goAcc","kogID","kogdefine","kogClass","iprId","iprDesc","...15","Feature","Record.Id","Function","GeneID"]
+
+    callD3()
+
+    function tabulate (data,columns) {
+        document.getElementById('tableDiv').innerHTML = "";
         var table = d3.select('#tableDiv').append('table')
         var thead = table.append('thead')
         var tbody = table.append('tbody')
@@ -363,11 +380,62 @@
         return table;
     }
 
-    d3.csv("./data/MM_ds_counts_annotation.csv").then(function (data) {
-        console.log(data)
-        var columns = ["","proteinId","cont","cont.1","cont.2","lowN","lowN.1","lowN.2","salt","salt.1","salt.2","lowFE","lowFE.1","lowFE.2","dsmoduleColors","MEblue","MEbrown","MEgrey","MEturquoise","ecNum","definition","pathway","gotermID","gotermType","goAcc","kogID","kogdefine","kogClass","iprId","iprDesc","...15","Feature","Record.Id","Function","GeneID"]
-        tabulate(data,columns)
-    })
+    function callD3(pathway) {
+        d3.csv("./data/MM_ds_counts_annotation.csv").then(function (data) {
+
+            let filteredData = data
+            if (pathway) {
+                console.log('here')
+                filteredData = data.filter(function(d) {
+                    for (let pathOpt of pathway) {
+                        if (d["pathway"] == pathOpt) {
+                            return d;
+                        }
+                    }
+                })
+            }
+            console.log(filteredData)
+            tabulate(filteredData,columns)
+            listOfPathways = Array.from(new Set (data.map(d => d.pathway)))
+            console.log(listOfPathways)
+            createFilters()
+        })
+    }
+
+
+    function createFilters() {
+        listOfPathways.forEach(i => {
+            var checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = 'check' + i;
+            checkbox.name = 'pathway';
+            checkbox.value = i;
+
+            var label = document.createElement('label')
+            label.htmlFor = 'check' + i;
+            label.appendChild(document.createTextNode(i));
+
+            var br = document.createElement('br');
+
+            var container = document.getElementById('filterForm');
+            container.appendChild(checkbox);
+            container.appendChild(label);
+            container.appendChild(br);
+        })
+    }
+
+    function submitHandler() {
+        let checkedCheckboxes = [];
+        var markedCheckbox = document.getElementsByName('pathway');
+        for (var checkbox of markedCheckbox) {
+            if (checkbox.checked) {
+                checkedCheckboxes.push(checkbox.value)
+            }
+        }
+        console.log(checkedCheckboxes)
+        callD3(checkedCheckboxes)
+    }
+
 </script>
 <!--<script defer >
     d3.text("./data/MM_ds_counts_annotation.csv", function(data) {
