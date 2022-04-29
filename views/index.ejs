@@ -22,10 +22,23 @@
 <!--<svg width=1000 height=800></svg>-->
 <div id="filterDiv">
     <div id="filterForm">
-        <input type="checkbox" id="radioEcNum" name="radioEcNum" value="NA">
-        <label for="radioEcNum">Exclude NA from ecNum</label><br>
+        <input type="checkbox" id="checkEcNum" name="checkEcNum" value="NA">
+        <label for="checkEcNum">Exclude NA from ecNum</label><br>
+        <input type="checkbox" id="checkDefinition" name="checkDefinition" value="NA">
+        <label for="checkDefinition">Exclude NA from Definition</label><br>
+        <input type="checkbox" id="checkGotermID" name="checkGotermID" value="NA">
+        <label for="checkGotermID">Exclude NA from goTermID</label><br>
+        <input type="checkbox" id="checkKogId" name="checkKogId" value="NA">
+        <label for="checkKogId">Exclude NA from KogId</label><br>
+        <input type="checkbox" id="checkKogClass" name="checkKogClass" value="NA">
+        <label for="checkKogClass">Exclude NA from KogClass</label><br>
+        <input type="checkbox" id="checkIprId" name="checkIprId" value="NA">
+        <label for="checkIprId">Exclude NA from Ipr Id</label><br>
+        <input type="checkbox" id="checkFunction" name="checkFunction" value="NA">
+        <label for="checkFunction">Exclude NA from goTermID</label><br>
         <br>
         <button onclick="submitHandler()" id="reviewSubmit">Submit Filters</button>
+        <br>
     </div>
 </div>
 <div id="tableDiv" style="overflow-x: auto;"></div>
@@ -400,7 +413,7 @@
 
     //"ecNum","definition","pathway","gotermID","gotermType","goAcc","kogID","kogdefine","kogClass","iprId","iprDesc",
     // "...15","Feature","Record.Id","Function","GeneID"
-    function callD3(ecNum, pathway) {
+    function callD3(ecNum, filterDefinition, pathway, gotermID, kogId, kogClass, iprId, filterFunction) {
         d3.csv("./data/MM_ds_counts_annotation.csv").then(function (data) {
 
             let filteredData = data
@@ -422,6 +435,48 @@
                     }
                 })
             }
+            if (filterDefinition) {
+                filteredData = filteredData.filter(d => {
+                    if (d["definition"] !== 'NA') {
+                        return d;
+                    }
+                })
+            }
+            if (gotermID) {
+                filteredData = filteredData.filter(d => {
+                    if (d["gottermID"] !== 'NA') {
+                        return d;
+                    }
+                })
+            }
+            if (kogId) {
+                filteredData = filteredData.filter(d => {
+                    if (d["kogId"] !== 'NA') {
+                        return d;
+                    }
+                })
+            }
+            if (kogClass) {
+                filteredData = filteredData.filter(d => {
+                    if (d["kogClass"] !== 'NA') {
+                        return d;
+                    }
+                })
+            }
+            if (iprId) {
+                filteredData = filteredData.filter(d => {
+                    if (d["iprId"] !== 'NA') {
+                        return d;
+                    }
+                })
+            }
+            if (filterFunction) {
+                filteredData = filteredData.filter(d => {
+                    if (d["filterFunction"] !== 'NA') {
+                        return d;
+                    }
+                })
+            }
             console.log(filteredData)
             tabulate(filteredData,columns)
             listOfPathways = Array.from(new Set (data.map(d => d.pathway)))
@@ -429,53 +484,56 @@
             //"ecNum","definition","pathway","gotermID","gotermType","goAcc","kogID","kogdefine","kogClass","iprId","iprDesc",
             // "...15","Feature","Record.Id","Function","GeneID"
             listOfecNum = Array.from(new Set (data.map(d => d.ecNum)))
-            console.log(listOfecNum) //388
+            // console.log(listOfecNum) //388 'NA'
             listOfdefinition = Array.from(new Set (data.map(d => d.definition)))
-            console.log(listOfdefinition) //388
+            // console.log(listOfdefinition) //388 'NA'
             listOfgotermID = Array.from(new Set (data.map(d => d.gotermID)))
-            console.log(listOfgotermID) //1010
+            // console.log(listOfgotermID) //1010 'NA'
             listOfgotermType = Array.from(new Set (data.map(d => d.gotermType)))
-            console.log(listOfgotermType) //1010
+            // console.log(listOfgotermType) //1010 'NA'
             listOfgoAcc = Array.from(new Set (data.map(d => d.goAcc)))
-            console.log(listOfgoAcc) //1010
+            // console.log(listOfgoAcc) //1010 'NA'
             listOfkogID = Array.from(new Set (data.map(d => d.kogID)))
-            console.log(listOfkogID) //1689
+            // console.log(listOfkogID) //1689 'NA'
             listOfkogClass = Array.from(new Set (data.map(d => d.kogClass)))
-            console.log(listOfkogClass) //102
+            // console.log(listOfkogClass) //102 'NA'
             listOfiprId = Array.from(new Set (data.map(d => d.iprId)))
-            console.log(listOfiprId) //384
+            // console.log(listOfiprId) //384 'NA'
             listOfiprDesc = Array.from(new Set (data.map(d => d.iprDesc)))
-            console.log(listOfiprDesc) //384
+            // console.log(listOfiprDesc) //384  'NA'
             listOfFeature= Array.from(new Set (data.map(d => d.Feature)))
-            console.log(listOfFeature) //3269
+            // console.log(listOfFeature) //3269 all individual
             listOfFunction= Array.from(new Set (data.map(d => d.Function)))
-            console.log(listOfFunction) //1607
+            // console.log(listOfFunction) //1607 'NA'
             listOfGeneID= Array.from(new Set (data.map(d => d.GeneID)))
-            console.log(listOfGeneID) //3269
+            // console.log(listOfGeneID) //3269 all individual
             createFilters()
         })
     }
 
-
+    let filtersCreated = false;
     function createFilters() {
-        listOfPathways.forEach(i => {
-            var checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.id = 'check' + i;
-            checkbox.name = 'pathway';
-            checkbox.value = i;
+        if (!filtersCreated) {
+            listOfPathways.forEach(i => {
+                var checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = 'check' + i;
+                checkbox.name = 'pathway';
+                checkbox.value = i;
 
-            var label = document.createElement('label')
-            label.htmlFor = 'check' + i;
-            label.appendChild(document.createTextNode(i));
+                var label = document.createElement('label')
+                label.htmlFor = 'check' + i;
+                label.appendChild(document.createTextNode(i));
 
-            var br = document.createElement('br');
+                var br = document.createElement('br');
 
-            var container = document.getElementById('filterForm');
-            container.appendChild(checkbox);
-            container.appendChild(label);
-            container.appendChild(br);
-        })
+                var container = document.getElementById('filterForm');
+                container.appendChild(checkbox);
+                container.appendChild(label);
+                container.appendChild(br);
+            })
+        }
+        filtersCreated = true;
     }
 
     function submitHandler() {
@@ -487,12 +545,38 @@
             }
         }
         let ecNum = false;
-        if (document.getElementById('radioEcNum').checked) {
+        if (document.getElementById('checkEcNum').checked) {
             ecNum = true;
+        }
+        let filterDef = false;
+        if (document.getElementById('checkDefinition').checked) {
+            filterDef = true;
+        }
+        let gotermId = false;
+        if (document.getElementById('checkGotermID').checked) {
+            gotermId = true;
+        }
+        let kogId = false;
+        if (document.getElementById('checkKogId').checked) {
+            kogId = true;
+        }
+        let kogClass = false;
+        if (document.getElementById('checkKogClass').checked) {
+            kogClass = true;
+        }
+        let iprId = false;
+        if (document.getElementById('checkIprId').checked) {
+            iprId = true;
+        }
+        let filterFxn = false;
+        if (document.getElementById('checkFunction').checked) {
+            filterFxn = true;
         }
 
         console.log(checkedCheckboxes)
-        callD3(ecNum, checkedCheckboxes)
+        //ecNum, filterDefinition, pathway, gotermID, kogId, kogClass,
+        // iprId, filterFunction
+        callD3(ecNum, filterDef, checkedCheckboxes, gotermId, kogId, kogClass, iprId, filterFxn)
     }
 
 </script>
