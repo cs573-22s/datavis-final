@@ -41,7 +41,7 @@
         <br>
     </div>
 </div>
-<div id="tableDiv" style="overflow-x: auto;"></div>
+<div id="tableDiv"></div>
 <!--<script defer>
 
     const color = d3.scaleOrdinal()
@@ -397,6 +397,10 @@
             .data(data)
             .enter()
             .append('tr')
+            .attr('id', d => d.proteinId)
+
+        rows.append('td').html(d => {return `<input type="checkbox" id="proteinCheck" name="proteinCheck" value='` + d.proteinId + `'>`;})
+
 
         var cells = rows.selectAll('td')
             .data(function(row) {
@@ -576,6 +580,16 @@
         console.log(checkedCheckboxes)
         //ecNum, filterDefinition, pathway, gotermID, kogId, kogClass,
         // iprId, filterFunction
+
+        let checkedProteinCheckboxes = [];
+        var markedProteinCheckbox = document.getElementsByName('proteinCheck');
+        for (var checkbox of markedProteinCheckbox) {
+            if (checkbox.checked) {
+                checkedProteinCheckboxes.push(checkbox.value)
+            }
+        }
+        console.log('marked Protein checkbox')
+        console.log(checkedProteinCheckboxes)
         callD3(ecNum, filterDef, checkedCheckboxes, gotermId, kogId, kogClass, iprId, filterFxn)
     }
 
