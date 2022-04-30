@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<!--
+    py -m http.server 8000 --bind 127.0.0.1
+-->
+
+<head>
+
+    <meta charset="utf-8">
+    
+    <title>Visualizing the Massachusetts Affordable Housing Crisis</title>
+    <style>
+        body {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size:100%;
+        }
+        h1 {
+            font-size: 2em;
+        }
+        h2 {
+            font-size: 1.2em;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Visualizing the Massachusetts Affordable Housing Crisis</h1>
+    <p>TEXT</p>
+
+    <h2>What is the affordable housing crisis?</h2>
+    <p>TEXT</p>
+    <svg id="vis1"></svg>
+
+    <h2>How does the affordable housing crisis affect people?</h2>
+    <p>TEXT</p>
+    <svg id="vis2"></svg>
+
+    <h2>Who is most affected?</h2>
+    <p>TEXT</p>
+    <svg id="vis3"></svg>
+
+    <h2>Side effects</h2>
+    <p>TEXT</p>
+    <svg id="vis4"></svg>
+
+    <h2>The future</h2>
+    <p>TEXT</p>
+    <svg id="vis5"></svg>
+
+</body>
+
+<script>
+
+    var width = 300;
+    var height = 300;
+
+    var vis1 = d3
+        .select("vis1")
+        .attr("viewBox", [0, 0, width, height])
+        .property("value", []);
+
+
+</script>
+
+<style>
+
+</style>
+
+
+</html>
