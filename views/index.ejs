@@ -4,47 +4,79 @@
 
 <body>
 <style>
+    .fullBox {
+        display: grid;
+        grid-template: 100%/ 60% 40%;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+    }
+    .vizBox {
+        display: grid;
+        grid-template: 50% 50%/ 100%;
+    }
+    .filterBox {
+
+        height: 100%;
+        display: grid;
+        grid-template: 30% 70%/ 100% ;
+    }
     table, th, td {
         border: 1px solid;
     }
-    table {
-        height: 80%;
-        overflow-y: auto;
+    #filterForm {
+        height: 100%;
+        overflow: scroll;
+    }
+    #tableDiv {
+        height: 100%;
+        overflow: scroll;
     }
 </style>
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v6.js"></script>
 <script src="./js/scripts.js" defer></script>
-<%- include("./partials/nav.ejs") %>
 
-<!-- Create a div where the graph will take place -->
-<!--<div id="my_dataviz"></div>-->
-<!--<svg width=1000 height=800></svg>-->
-<svg id="my_datavizblue"></svg>
-<svg id="my_datavizturquoise"></svg>
-<svg id="my_datavizbrown"></svg>
-<div id="filterDiv">
-    <div id="filterForm">
-        <input type="checkbox" id="checkEcNum" name="checkEcNum" value="NA">
-        <label for="checkEcNum">Exclude NA from ecNum</label><br>
-        <input type="checkbox" id="checkDefinition" name="checkDefinition" value="NA">
-        <label for="checkDefinition">Exclude NA from Definition</label><br>
-        <input type="checkbox" id="checkGotermID" name="checkGotermID" value="NA">
-        <label for="checkGotermID">Exclude NA from goTermID</label><br>
-        <input type="checkbox" id="checkKogId" name="checkKogId" value="NA">
-        <label for="checkKogId">Exclude NA from KogId</label><br>
-        <input type="checkbox" id="checkKogClass" name="checkKogClass" value="NA">
-        <label for="checkKogClass">Exclude NA from KogClass</label><br>
-        <input type="checkbox" id="checkIprId" name="checkIprId" value="NA">
-        <label for="checkIprId">Exclude NA from Ipr Id</label><br>
-        <input type="checkbox" id="checkFunction" name="checkFunction" value="NA">
-        <label for="checkFunction">Exclude NA from goTermID</label><br>
-        <br>
-        <button onclick="submitHandler()" id="reviewSubmit">Submit Filters</button>
-        <br>
+
+<div class="fullBox">
+    <!-- Create a div where the graph will take place -->
+    <!--<div id="my_dataviz"></div>-->
+    <!--<svg width=1000 height=800></svg>-->
+    <div class="vizBox">
+        <div id="nodeLinkViz"></div>
+        <div>
+            <svg id="my_datavizblue"></svg>
+            <svg id="my_datavizturquoise"></svg>
+            <svg id="my_datavizbrown"></svg>
+        </div>
     </div>
+
+    <div class="filterBox">
+        <div id="filterDiv" style="background: aquamarine">
+            <div id="filterForm">
+                <input type="checkbox" id="checkEcNum" name="checkEcNum" value="NA">
+                <label for="checkEcNum">Exclude NA from ecNum</label><br>
+                <input type="checkbox" id="checkDefinition" name="checkDefinition" value="NA">
+                <label for="checkDefinition">Exclude NA from Definition</label><br>
+                <input type="checkbox" id="checkGotermID" name="checkGotermID" value="NA">
+                <label for="checkGotermID">Exclude NA from goTermID</label><br>
+                <input type="checkbox" id="checkKogId" name="checkKogId" value="NA">
+                <label for="checkKogId">Exclude NA from KogId</label><br>
+                <input type="checkbox" id="checkKogClass" name="checkKogClass" value="NA">
+                <label for="checkKogClass">Exclude NA from KogClass</label><br>
+                <input type="checkbox" id="checkIprId" name="checkIprId" value="NA">
+                <label for="checkIprId">Exclude NA from Ipr Id</label><br>
+                <input type="checkbox" id="checkFunction" name="checkFunction" value="NA">
+                <label for="checkFunction">Exclude NA from goTermID</label><br>
+                <br>
+                <button onclick="submitHandler()" id="reviewSubmit">Submit Filters</button>
+                <br>
+            </div>
+        </div>
+        <div id="tableDiv" style="background: lightpink"></div>
+    </div>
+
 </div>
-<div id="tableDiv"></div>
 <!--<script defer>
 
     const color = d3.scaleOrdinal()
