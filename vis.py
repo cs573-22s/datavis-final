@@ -2,13 +2,18 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-# interested in % renter households ELI and % ELI that are cost burdened
 df = pd.read_csv("data/neppcpr1901-data.csv")
 
+# df without unecessary cols
 df_short = df.drop(['YEAR', 'STATE GEO', 'COUNTY GEO', 'CITY/TOWN GEOID'], axis=1)
+# df only with cols i'm interested in
 df_intr = df[['COUNTY NAME', 'CITY/TOWN NAME', 'NO. OF ELI RENT BURDENED (30%)', 'NO. OF RENTER HOUSEHOLDS', 'NO. OF ELI HOUSEHOLDS']]
 
-
+# df with percentages i'm interested in
+df_perc = df[['COUNTY NAME', 'CITY/TOWN NAME']]
+df_perc['PERCENT ELI'] = df_intr['NO. OF ELI HOUSEHOLDS'] / df_intr['NO. OF RENTER HOUSEHOLDS']
+df_perc['PERCENT RENT BURDENED ELI'] = df_intr['NO. OF ELI RENT BURDENED (30%)'] / df_intr['NO. OF ELI HOUSEHOLDS']
+print(df_intr.head(10))
 
 '''
 # HOMEOWNERSHIP RACE DISPARITY

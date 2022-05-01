@@ -34,7 +34,7 @@
 
     <h2>What is the affordable housing crisis?</h2>
     <p>TEXT</p>
-    <svg id="vis1"></svg>
+    <div id="vis1"></div>
 
     <h2>How does the affordable housing crisis affect people?</h2>
     <p>TEXT</p>
@@ -56,13 +56,91 @@
 
 <script>
 
-    var width = 300;
-    var height = 300;
+    var margin = {top: 10, right: 30, bottom: 30, left: 60},
+        width = 600 - margin.left - margin.right,
+        height = 300 - margin.top - margin.bottom;
 
-    var vis1 = d3
-        .select("vis1")
-        .attr("viewBox", [0, 0, width, height])
-        .property("value", []);
+    // ***VIS 1*** // from https://d3-graph-gallery.com/graph/line_basic.html
+
+    var svg1 = d3.select("#vis1")
+        .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+            .attr("transform",
+                "translate(" + margin.left + "," + margin.top + ")");
+
+    d3.csv("data/listprice_houseincome.csv",
+
+        function(d){
+            return { date : d3.timeParse("%Y-%m-%d")(d.DATE), price : d.MEDLISPRI, income : d.MEHOIN } 
+        },
+
+        function(data) {
+
+            // X AXIS
+            var x = d3.scaleTime()
+                .domain(d3.extent(data, function(d) {return d.date; }))
+                .range([0, width]);
+            svg1.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(x));
+            svg1.append("text")
+                .attr("class", "x label")
+                .attr("text-anchor", "end")
+                .attr("x", width)
+                .attr("y", height - 6)
+                .attr("font-size", 12)
+                .text("Year");
+
+            // Y AXIS
+            var y = d3.scaleLinear()
+                .domain([0, d3.max(data, function(d) { return +(d.price); })])
+                .range([height, 0]);
+            svg1.append("g")
+                .call(d3.axisLeft(y));
+            svg1.append("text")
+                .attr("class", "y label")
+                .attr("text-anchor", "end")
+                .attr("y", 6)
+                .attr("dy", ".75em")
+                .attr("transform", "rotate(-90)")
+                .attr("font-size", 12)
+                .text("Amount in $");
+
+            // LINES
+            svg1.append("path")
+                .datum(data)
+                .attr("fill", "none")
+                .attr("stroke", "red")
+                .attr("stroke-width", 1.5)
+                .attr("d", d3.line()
+                    .x(function(d) { return x(d.date) })
+                    .y(function(d) { return y(d.price) })
+                )
+            svg1.append("path")
+                .datum(data)
+                .attr("fill", "none")
+                .attr("stroke", "teal")
+                .attr("stroke-width", 1.5)
+                .attr("d", d3.line()
+                    .x(function(d) { return x(d.date) })
+                    .y(function(d) { return y(d.income) })
+                )
+
+            // LEGEND
+            svg1.append("circle").attr("cx",width-150).attr("cy",height-100).attr("r", 5).style("fill", "red")
+            svg1.append("circle").attr("cx",width-150).attr("cy",height-80).attr("r", 5).style("fill", "teal")
+            svg1.append("text").attr("x", width-140).attr("y",height-100).text("Median Listing Price in MA").style("font-size", "9px").attr("alignment-baseline","middle")
+            svg1.append("text").attr("x", width-140).attr("y",height-80).text("Real Median Household Income in MA").style("font-size", "9px").attr("alignment-baseline","middle")
+
+            //TOOLTIP (if time)
+            
+        }
+
+    )
+
+    // ***VIS 2*** //
 
 
 </script>
