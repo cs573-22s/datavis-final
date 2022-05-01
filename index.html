@@ -19,9 +19,16 @@
         }
         h1 {
             font-size: 2em;
+            color:#325f75;
+            font-weight: 100;
         }
         h2 {
             font-size: 1.2em;
+            color: #518096;
+            font-weight: 800;
+        }
+        p {
+            color: #1b1b1b;
         }
 
     </style>
@@ -40,33 +47,70 @@
 
 <body>
 
-    <h1>Visualizing the Massachusetts Affordable Housing Crisis</h1>
-    <p>TEXT</p>
+    <h1>Visualizing the Massachusetts Affordable Housing Crisis</h1><br>
+    <p>Lorem ipsum LOREM IPSUM</p><br>
 
     <h2>What is the affordable housing crisis?</h2>
     <p>TEXT</p>
-    <div id="vis1"></div>
+    <div id="vis1"></div><br>
 
     <h2>How does the affordable housing crisis affect people?</h2>
     <p>TEXT</p>
-    <div id="vis2"></div>
-
-    <h2>Who is most affected?</h2>
-    <p>TEXT</p>
-    <div id="map"></div>
+    <div id="map"></div><br>
     <!--
         Map based on https://gist.github.com/michaschwab/411cbbd398e9b74e297f4aecf0410f70
     -->
     <script src="add_map.js"></script> 
 
-    <h2>Side effects</h2>
+    <h2>Who is most affected?</h2>
+    <p>TEXT</p>
+    <div id="vis2"></div><br>
+
+    <h2>Side effects/The future</h2>
     <p>TEXT</p>
     <div id="vis4"></div>
 
-    <h2>The future</h2>
-    <p>TEXT</p>
-
 </body>
+
+<style>
+
+    html {
+        display: table;
+        margin: auto;
+    }
+
+    body {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    #vis1 {
+        margin: auto;
+        width: 60%;
+    }
+
+    #map {
+        margin: auto;
+        width: 55%;
+    }
+
+    #vis2 {
+        margin: auto;
+        width: 70%;
+    }
+
+    .barToolTip {
+        position: absolute;
+        display: none;
+        min-width: 80px;
+        height: auto;
+        background: none repeat scroll 0 0 #ffffff;
+        border: 1px solid #414141;
+        padding: 14px;
+        text-align: center;
+        }
+
+</style>
 
 <script>
 
@@ -166,6 +210,8 @@
             .attr("transform",
                 "translate(" + margin2.left + "," + margin2.top + ")");
 
+    var bartooltip = d3.select("body").append("div").attr("class", "barToolTip");
+
     d3.csv("data/homeowner_dis.csv", function(data) {
 
         var x2 = d3.scaleLinear()
@@ -182,7 +228,7 @@
             .attr("y", 0 - (margin2.top / 2))
             .attr("text-anchor", "middle")  
             .style("font-size", "16px") 
-            .text("Homeownership Racial Disparity");
+            .text("Homeownership Racial Disparity in MA");
 
         var y2 = d3.scaleBand()
             .range([0, height2])
@@ -191,15 +237,24 @@
         svg2.append("g")
             .call(d3.axisLeft(y2))
 
-        svg2.selectAll("myRect")
+        svg2.selectAll(".bar")
             .data(data)
             .enter()
             .append("rect")
+            .attr("class", "bar")
             .attr("x", x2(0))
             .attr("y", function(d) { return y2(d.RACE); })
             .attr("width", function(d) { return x2(d.PERCENT); })
             .attr("height", y2.bandwidth())
             .attr("fill", "#69b3a2")
+            .on("mousemove", function(d){
+                bartooltip
+                .style("left", d3.event.pageX - 50 + "px")
+                .style("top", d3.event.pageY - 70 + "px")
+                .style("display", "inline-block")
+                .html("Homeownership: " + (d.PERCENT) + "%");
+            })
+            .on("mouseout", function(d){ bartooltip.style("display", "none");});
 
     })
 
