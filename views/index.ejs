@@ -4,7 +4,7 @@
 
 <body>
 <style>
-    .fullBox {
+    #fullBox {
         display: grid;
         grid-template: 100%/ 50% 50%;
         height: 100%;
@@ -36,21 +36,23 @@
     #heatMapBox {
         width: 100%;
     }
-    #filterForm {
 
-    }
 </style>
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v6.js"></script>
 <script src="./js/scripts.js" defer></script>
 
 
-<div class="fullBox">
+<div id="fullBox">
     <!-- Create a div where the graph will take place -->
     <!--<div id="my_dataviz"></div>-->
     <!--<svg width=1000 height=800></svg>-->
+    <div id="nodeLinkDiv" style="display: none;">
+        <svg id="nodeLinksvg" style="width: 1000px; height: 800px;"></svg>
+    </div>
     <div class="vizBox">
-        <div id="heatMapBox">
+        <button onclick="switchDisplay()">Switch Display</button>
+        <div id="heatMapBox" style="display: block;">
             <svg id="my_datavizblue"></svg>
             <svg id="my_datavizturquoise"></svg>
             <svg id="my_datavizbrown"></svg>
@@ -60,23 +62,24 @@
     <div class="filterBox">
         <div id="filterDiv" style="background: aquamarine">
             <div id="naFilters" style="width: 25%; height: 100%; overflow: auto;">
+                <h3>Remove NA's</h3>
                 <input type="checkbox" id="checkEcNum" name="checkEcNum" value="NA">
-                <label for="checkEcNum">ecNum -r NA</label><br>
+                <label for="checkEcNum">ecNum</label><br>
                 <input type="checkbox" id="checkDefinition" name="checkDefinition" value="NA">
-                <label for="checkDefinition">Definition -r NA</label><br>
+                <label for="checkDefinition">Definition</label><br>
                 <input type="checkbox" id="checkGotermID" name="checkGotermID" value="NA">
-                <label for="checkGotermID">goTermID -r NA</label><br>
+                <label for="checkGotermID">goTermID</label><br>
                 <input type="checkbox" id="checkKogId" name="checkKogId" value="NA">
-                <label for="checkKogId">KogId -r NA</label><br>
+                <label for="checkKogId">KogId</label><br>
                 <input type="checkbox" id="checkKogClass" name="checkKogClass" value="NA">
-                <label for="checkKogClass">KogClass -r NA</label><br>
+                <label for="checkKogClass">KogClass</label><br>
                 <input type="checkbox" id="checkIprId" name="checkIprId" value="NA">
-                <label for="checkIprId">iprId -r NA</label><br>
+                <label for="checkIprId">iprId</label><br>
                 <input type="checkbox" id="checkFunction" name="checkFunction" value="NA">
-                <label for="checkFunction">goTermID -r NA</label><br>
+                <label for="checkFunction">goTermID</label><br>
             </div>
             <div id="filterForm" style="width: 65%; height: 100%; overflow: auto;">
-
+                <h3>Pathways and Colors:</h3>
             </div>
             <div style="width: 10%; height: 100%; overflow: auto;">
                 <br>
@@ -84,11 +87,18 @@
                 <br>
             </div>
         </div>
-        <div id="tableDiv" style="background: lightpink"></div>
+        <div id="tableDiv" style="background: lightpink">
+            <div style="display: flex; flex-direction: row; position: sticky; top: 0; left:0; background: #696969; height: 25px;">
+                <p >Search Description:</p>
+                <input type="text" id="searchBar" onkeyup="searchTable(event)" style="height: 25px">
+            </div>
+
+            <div id="tableDiv2"></div>
+        </div>
     </div>
 
 </div>
-<!--<script defer>
+<script defer>
 
     const color = d3.scaleOrdinal()
         .range(['blue', 'brown', 'grey', 'turquoise'])
@@ -102,7 +112,7 @@
     })
 
     function buildNetwork(data){
-        var svg = d3.select('svg');
+        var svg = d3.select('#nodeLinksvg');
         var height = +svg.attr('height');
         var width = +svg.attr('width');
 
@@ -402,7 +412,7 @@
         })
     }
 
-</script>-->
+</script>
 <script defer>
 
     let listOfColors;
@@ -427,8 +437,8 @@
     callD3()
 
     function tabulate (data,columns) {
-        document.getElementById('tableDiv').innerHTML = "";
-        var table = d3.select('#tableDiv').append('table')
+        document.getElementById('tableDiv2').innerHTML = "";
+        var table = d3.select('#tableDiv2').append('table')
         var thead = table.append('thead')
         var tbody = table.append('tbody')
 
@@ -460,7 +470,6 @@
 
         return table;
     }
-
 
     function callD3(proteinId, color, ecNum, filterDefinition, pathway, gotermID, kogId, kogClass, iprId, filterFunction) {
         d3.csv("./data/MM_ds_counts_annotation.csv").then(function (data) {
@@ -682,9 +691,6 @@
         callD3(checkedProteinCheckboxes, checkedColorCheckboxes, ecNum, filterDef, checkedCheckboxes, gotermId, kogId, kogClass, iprId, filterFxn)
     }
 
-
-
-
     // set the dimensions and margins of the graph
     const margin = {top: 40, right: 0, bottom: 20, left: 0},
         width = 600 - margin.left - margin.right,
@@ -798,6 +804,46 @@
 //               .text("Heatmap of ");
         })
     })}
+
+    function searchTable(event) {
+        if (event.keyCode != 13) {
+            return;
+        }
+        var q = document.getElementById("searchBar");
+        var v = q.value.toLowerCase();
+        var rows = document.getElementsByTagName("tr");
+        var on = 0;
+        for ( var i = 1; i < rows.length; i++ ) {
+            var fullname = rows[i].getElementsByTagName("td");
+            fullname = fullname[33].innerHTML.toLowerCase();
+            console.log("fullname: ")
+            console.log(fullname)
+            if ( fullname ) {
+                if ( v.length == 0 || (v.length < 3 && fullname.indexOf(v) == 0) || (v.length >= 3 && fullname.indexOf(v) > -1 ) ) {
+                    rows[i].style.display = "";
+                    on++;
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+        }
+
+    }
+
+    function switchDisplay() {
+        console.log(document.getElementById('heatMapBox'))
+        if (document.getElementById('heatMapBox').style.display === 'block') {
+            document.getElementById('heatMapBox').style.display = 'none'
+        } else {
+            document.getElementById('heatMapBox').style.display = 'block'
+        }
+
+        if (document.getElementById('nodeLinkDiv').style.display === 'block') {
+            document.getElementById('nodeLinkDiv').style.display = 'none'
+        } else {
+            document.getElementById('nodeLinkDiv').style.display = 'block'
+        }
+    }
 
 </script>
 <!--<script defer >
