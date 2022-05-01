@@ -36,6 +36,12 @@ app.get('/index', async (req, res) => {
 
 });
 
+app.get('/nodeLink', async (req, res) => {
+
+    res.render('nodeLink');
+
+});
+
 app.get('/sarah', async (req, res) => {
 
     res.render('sarah');
