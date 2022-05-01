@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/topojson.v1.js"></script>
 
 <!--
     py -m http.server 8000 --bind 127.0.0.1
@@ -25,6 +26,16 @@
 
     </style>
 
+    <style type="text/css">
+        #map {
+        width: 615px;
+        height: 375px;
+        }
+        .town {
+            fill: #ccc;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -42,7 +53,11 @@
 
     <h2>Who is most affected?</h2>
     <p>TEXT</p>
-    <div id="vis3"></div>
+    <div id="map"></div>
+    <!--
+        Map based on https://gist.github.com/michaschwab/411cbbd398e9b74e297f4aecf0410f70
+    -->
+    <script src="add_map.js"></script> 
 
     <h2>Side effects</h2>
     <p>TEXT</p>
@@ -50,7 +65,6 @@
 
     <h2>The future</h2>
     <p>TEXT</p>
-    <div id="vis5"></div>
 
 </body>
 
@@ -188,8 +202,6 @@
             .attr("fill", "#69b3a2")
 
     })
-
-    // *** VIS 3 ***
 
 </script>
 
