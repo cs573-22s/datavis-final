@@ -6,17 +6,16 @@
 <style>
     .fullBox {
         display: grid;
-        grid-template: 100%/ 60% 40%;
+        grid-template: 100%/ 50% 50%;
         height: 100%;
         width: 100%;
         position: absolute;
     }
-    .vizBox {
-        display: grid;
-        grid-template: 50% 50%/ 100%;
-    }
-    .filterBox {
 
+    .filterBox {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
         height: 100%;
         display: grid;
         grid-template: 30% 70%/ 100% ;
@@ -24,13 +23,21 @@
     table, th, td {
         border: 1px solid;
     }
-    #filterForm {
+    #filterDiv {
+        display: flex;
+        flex-direction: row;
         height: 100%;
-        overflow: scroll;
+        overflow: auto;
     }
     #tableDiv {
         height: 100%;
-        overflow: scroll;
+        overflow: auto;
+    }
+    #heatMapBox {
+        width: 100%;
+    }
+    #filterForm {
+
     }
 </style>
 <!-- Load d3.js -->
@@ -43,8 +50,7 @@
     <!--<div id="my_dataviz"></div>-->
     <!--<svg width=1000 height=800></svg>-->
     <div class="vizBox">
-        <div id="nodeLinkViz"></div>
-        <div>
+        <div id="heatMapBox">
             <svg id="my_datavizblue"></svg>
             <svg id="my_datavizturquoise"></svg>
             <svg id="my_datavizbrown"></svg>
@@ -53,23 +59,28 @@
 
     <div class="filterBox">
         <div id="filterDiv" style="background: aquamarine">
-            <div id="filterForm">
+            <div id="naFilters" style="width: 25%; height: 100%; overflow: auto;">
                 <input type="checkbox" id="checkEcNum" name="checkEcNum" value="NA">
-                <label for="checkEcNum">Exclude NA from ecNum</label><br>
+                <label for="checkEcNum">ecNum -r NA</label><br>
                 <input type="checkbox" id="checkDefinition" name="checkDefinition" value="NA">
-                <label for="checkDefinition">Exclude NA from Definition</label><br>
+                <label for="checkDefinition">Definition -r NA</label><br>
                 <input type="checkbox" id="checkGotermID" name="checkGotermID" value="NA">
-                <label for="checkGotermID">Exclude NA from goTermID</label><br>
+                <label for="checkGotermID">goTermID -r NA</label><br>
                 <input type="checkbox" id="checkKogId" name="checkKogId" value="NA">
-                <label for="checkKogId">Exclude NA from KogId</label><br>
+                <label for="checkKogId">KogId -r NA</label><br>
                 <input type="checkbox" id="checkKogClass" name="checkKogClass" value="NA">
-                <label for="checkKogClass">Exclude NA from KogClass</label><br>
+                <label for="checkKogClass">KogClass -r NA</label><br>
                 <input type="checkbox" id="checkIprId" name="checkIprId" value="NA">
-                <label for="checkIprId">Exclude NA from Ipr Id</label><br>
+                <label for="checkIprId">iprId -r NA</label><br>
                 <input type="checkbox" id="checkFunction" name="checkFunction" value="NA">
-                <label for="checkFunction">Exclude NA from goTermID</label><br>
+                <label for="checkFunction">goTermID -r NA</label><br>
+            </div>
+            <div id="filterForm" style="width: 65%; height: 100%; overflow: auto;">
+
+            </div>
+            <div style="width: 10%; height: 100%; overflow: auto;">
                 <br>
-                <button onclick="submitHandler()" id="reviewSubmit">Submit Filters</button>
+                <button onclick="submitHandler()" id="reviewSubmit" style="width: 90%;">Filter</button>
                 <br>
             </div>
         </div>
@@ -675,8 +686,8 @@
 
 
     // set the dimensions and margins of the graph
-    const margin = {top: 80, right: 0, bottom: 30, left: 0},
-        width = 810 - margin.left - margin.right,
+    const margin = {top: 40, right: 0, bottom: 20, left: 0},
+        width = 600 - margin.left - margin.right,
         height = 210 - margin.top - margin.bottom;
 
     //Read the data
@@ -757,7 +768,8 @@
                 .attr("rx", 4)
                 .attr("ry", 4)
                 .attr("width", x.bandwidth() )
-                .attr("height", 1 )
+                //.attr("height", 1 )
+                .attr('height', () => {return (y.bandwidth() < 1) ? 1 : y.bandwidth(); })
                 .style("fill", function(d) { return myColor(d.expression)} )
                 .style("stroke-width", 4)
                 .style("stroke", "none")
