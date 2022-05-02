@@ -3,7 +3,7 @@ Final Project - Interactive Data Visualization
 
 
 ### Process Book
-https://github.com/jcybul/datavis-final/blob/main/README.md
+https://github.com/jcybul/datavis-final/blob/main/Process%20Book.pdf
 ### Project Website
 https://jcybul.github.io/testmaps/
 ### Project Screen-Cast
