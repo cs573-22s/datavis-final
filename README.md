@@ -7,7 +7,7 @@ This is our final project for CS573. More information about our accomplishments 
 ### Process Book
 https://github.com/jcybul/datavis-final/blob/main/Process%20Book.pdf
 ### Project Website
-https://jcybul.github.io/testmaps/
+https://jcybul.github.io/datavis-final/
 ### Project Screen-Cast
 https://youtu.be/mt1E8Lp9SV0
 
