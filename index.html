@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,700;0,900;1,100;1,700;1,900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <title>Michelin Star Restaurants in the UK</title>
+
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-path@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-shape@3"></script>
+</head>
+<body>
+<svg id="canvas"></svg>
+
+<div class="left_box">
+    <h1>Michelin Star Restaurants in the UK</h1>
+    <p><i>and how they compare to economic and demographic factors (from 2019)</i></p>
+    <br>
+    <p>Select a region to learn more about its demographics and how likely a restaurant will be awarded a Michelin
+        star.</p>
+
+    <svg id="left_side_canvas"></svg>
+   
+    <div class="controls">
+        <table class="button-group">
+            <tr>
+                <td class="color-select" data-name="Stars" data-clip="0.02">Stars</td>
+                <td class="color-select" data-name="Population" data-clip="0.03">Population</td>
+                <td class="color-select" data-name="Housing" data-clip="0.05">Housing</td>
+                <td class="color-select selected" data-name="Income" data-clip="0.05">Income</td>
+                <td class="color-select" data-name="Predicted_Stars" data-clip="0.05">Prediction</td>
+            </tr>
+        </table>
+        <!-- Additional graph controls can be placed here -->
+    </div>
+</div>
+
+<div class="selection_info">
+    <h2 id="region_name">Region Name</h2>
+    <p><i>Stars: <span id="region_stars"><b>##</b></span>, Predicted: <span id="region_prediction"><b>##</b></span></i></p>
+    <table class="header-table">
+        <tr>
+            <th>Population</th>
+            <th>Income</th>
+            <th>Housing</th>
+        </tr>
+        <tr>
+            <td id="region_pop"><b><i>##</i></b></td>
+            <td id="region_income"><b><i>##</i></b></td>
+            <td id="region_housing"><b><i>##</i></b></td>
+        </tr>
+    </table>
+    <br>
+    <h2>Restaurants</h2>
+    <nav>
+        <ol id="region_restaurants"></ol>
+    </nav>
+</div>
+
+<script src="index.js"></script>
+</body>
+</html>
