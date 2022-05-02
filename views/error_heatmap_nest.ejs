@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v6.js"></script>
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+
+
+<script>
+  
+  // set the dimensions and margins of the graph
+const margin = {top: 80, right: 25, bottom: 30, left: 60},
+  width = 850 - margin.left - margin.right,
+  height = 40000 - margin.top - margin.bottom;
+  
+// append the svg object to the body of the page
+const svg = d3.select("#my_dataviz")
+ .append("svg")
+   .attr("width", width + margin.left + margin.right)
+   .attr("height", height + margin.top + margin.bottom)
+ .append("g")
+   .attr("transform", `translate(${margin.left}, ${margin.top})`);
+  
+//Read the data
+d3.csv("./data/ds_long.csv", function(data){
+    var nested = d3.nest()
+      .key(k => k.modules)
+      .entries(data);
+  });
+// pick one of the data series
+const dataSeries = nested[7].values;
+
+// use the d3fc extent component to compute the x & y domain
+const yExtent = fc.extentLinear()
+  .accessors([d => d.expression])
+  .pad([0, 0.2])
+  .include([0]);
+
+const xExtent = fc.extentLinear()
+  .accessors([d => d.proteinId]);
+
+const line = fc.seriesSvgLine()
+  .crossValue(d => d.proteinId)
+  .mainValue(d => d.expression);
+
+const chart = fc.chartSvgCartesian(
+    d3.scaleLinear(),
+    d3.scaleLinear())
+  .yDomain(yExtent(data))
+  .xDomain(xExtent(data))
+  .yOrient('left')
+  .plotArea(line);
+
+// render
+d3.select('#small-multiples')
+  .datum(dataSeries)
+  .call(chart);
+
+  </script>

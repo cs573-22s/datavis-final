@@ -1,0 +1,34 @@
+\begin{thebibliography}{1}
+
+\bibitem{emmons2016analysis}
+S.~Emmons, S.~Kobourov, M.~Gallant, and K.~B{\"o}rner.
+\newblock Analysis of network clustering algorithms and cluster quality metrics
+  at scale.
+\newblock {\em PloS one}, 11(7):e0159161, 2016.
+
+\bibitem{mcgee2019state}
+F.~Mcgee, M.~Ghoniem, G.~Melan{\c{c}}on, B.~Otjacques, and B.~Pinaud.
+\newblock The state of the art in multilayer network visualization.
+\newblock In {\em Computer Graphics Forum}, volume~38, pages 125--149. Wiley
+  Online Library, 2019.
+
+\bibitem{nobre2019state}
+C.~Nobre, M.~Meyer, M.~Streit, and A.~Lex.
+\newblock The state of the art in visualizing multivariate networks.
+\newblock In {\em Computer Graphics Forum}, volume~38, pages 807--832. Wiley
+  Online Library, 2019.
+
+\bibitem{shannon2003cytoscape}
+P.~Shannon, A.~Markiel, O.~Ozier, N.~S. Baliga, J.~T. Wang, D.~Ramage, N.~Amin,
+  B.~Schwikowski, and T.~Ideker.
+\newblock Cytoscape: a software environment for integrated models of
+  biomolecular interaction networks.
+\newblock {\em Genome research}, 13(11):2498--2504, 2003.
+
+\bibitem{wandy2021graphomics}
+J.~Wandy and R.~Daly.
+\newblock Graphomics: an interactive platform to explore and integrate
+  multi-omics data.
+\newblock {\em BMC bioinformatics}, 22(1):1--19, 2021.
+
+\end{thebibliography}
