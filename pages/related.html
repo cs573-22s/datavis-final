@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html class="ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--><html class=""><!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+	<title>FindYourTED - Related Videos</title>
+
+	<!-- Standard Favicon -->
+	<link rel="icon" type="image/x-icon" href="images/logo.jpg" />
+	
+	<!-- For iPhone 4 Retina display: -->
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images//apple-touch-icon-114x114-precomposed.png">
+	
+	<!-- For iPad: -->
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images//apple-touch-icon-72x72-precomposed.png">
+	
+	<!-- For iPhone: -->
+	<link rel="apple-touch-icon-precomposed" href="images//apple-touch-icon-57x57-precomposed.png">	
+	
+	<!-- Library - Google Font Familys -->	
+	
+	<!-- Library - Bootstrap v3.3.5 -->
+    <link rel="stylesheet" type="text/css" href="libraries/lib.css">
+	
+	<!-- Custom - Common CSS -->
+	<link rel="stylesheet" type="text/css" href="css/plugins.css">
+	<link rel="stylesheet" type="text/css" href="css/navigation-menu.css">
+	
+	<!-- Custom - Theme CSS -->
+	<link rel="stylesheet" type="text/css" href="style.css" />
+	<link rel="stylesheet" type="text/css" href="css/shortcodes.css" />
+		
+	<!--[if lt IE 9]>
+		<script src="js/html5/respond.min.js"></script>
+    <![endif]-->
+	
+</head>
+
+<body data-offset="200" data-spy="scroll" data-target=".ow-navigation">
+	<!-- Loader -->
+	<div id="site-loader" class="load-complete">
+		<div class="loader">
+			<div class="loader-inner ball-clip-rotate">
+				<div></div>
+			</div>
+		</div>
+	</div><!-- Loader /- -->
+
+	<a id="top"></a>
+		
+	<!-- Header Section -->
+	<header id="header" class="header-section header-position container-fluid no-padding">
+		<!-- Top Header -->
+		<div class="top-header container-fluid no-padding">
+			<!-- Container -->
+			<div class="container">
+				<div class="row">
+					<div class="logo-block col-md-3"><a href="main.html" title="FindTed"><img src="images/logo.jpg" alt="Logo" /></a></div>
+					<div class="col-md-9 contact-detail">
+						<div class="menu-search">
+							<div id="sb-search" class="sb-search">
+							
+							</div>
+						</div>
+					</div>
+				</div>
+			</div><!-- Container /- -->
+		</div><!-- Top Header /- -->
+		
+	</header><!-- Header Section /- -->
+	
+	<main class="site-main page-spacing">
+		<!-- Slider Section -->
+		<div id="slider-section" class="slider-section container-fluid no-padding">
+			<div id="photo-slider" class="carousel slide" data-ride="carousel">
+				<!-- Wrapper for slides -->
+				<div class="carousel-inner" role="listbox">
+					<div class="item active">
+						<img src="images/slider/jr-and-ted-logo.webp" alt="Slide"  width="100%" style="opacity: 0.7;"/>
+						<div class="carousel-caption" id="my_related">
+						</div>
+					</div>				
+				</div>
+			</div>
+		</div><!-- Slider Section /- -->
+		
+		
+	
+	<!-- JQuery v1.11.3 -->
+	<script src="js/jquery.min.js"></script>
+	
+	<!-- Library JS -->
+	<script src="libraries/lib.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.0.0.js"></script>
+		
+	<!-- Library - Theme JS -->	
+	<script src="js/functions.js"></script>
+
+    <script src="https://d3js.org/d3.v2.js"></script>
+
+    <script type="text/javascript">
+
+        var data =  $.parseJSON($.ajax({
+            url: "https://raw.githubusercontent.com/YufeiLinUlysses/CS573_Final_Project/zeng/pages/data/ted_talk.json",
+            dataType: "json", 
+            async: false
+        }).responseText);
+        console.log(data[1]);
+        console.log(typeof(data))
+        console.log(data[1].related_talks)
+        console.log(typeof(data[1].related_talks))
+        console.log(data[1].related_talks.length)
+        console.log(data[1].related_talks[1])
+        console.log(data[1].related_talks[1].title)
+
+        var title = localStorage.getItem('title');
+
+        console.log(title)
+
+        var related = getRelated(title)
+
+        var relatedArr = []
+
+        relatedArr.push(title)
+
+        console.log(related)
+        console.log(typeof(related))
+
+        for(let i = 0; i < related.length; i++){
+            relatedArr.push(related[i].title)
+        }
+
+        console.log(relatedArr)
+
+        var urlArr = []
+
+        for(let i = 0; i < relatedArr.length; i++){
+            for(let j = 0; j < data.length; j++){
+                if(data[j].title === relatedArr[i]){
+                    urlArr.push(data[j].url)
+                }
+            }
+        }
+
+        console.log(urlArr)
+
+        var nodes = []
+        for(let i = 0; i < relatedArr.length; i++){
+            var node = {
+                title: relatedArr[i],
+                url: urlArr[i]
+            };
+            nodes.push(node)
+        }
+        console.log(nodes)
+        
+        var edges = []
+        for(let i = 1; i < relatedArr.length; i++){
+            var edge = {
+                source: 0,
+                target: i
+            };
+            edges.push(edge)
+        }
+        console.log(edges)
+
+        genearteNetwork(nodes, edges)
+
+        
+        function genearteNetwork(nodes, edges){
+            var width = 600;
+            var height = 600;
+
+            var force = d3.layout.force()
+                     .nodes(nodes) 
+                     .links(edges) 
+                     .size([width,height]) 
+                     .linkDistance(200) 
+                     .charge([-1200]); 
+            
+            force.start(); 
+
+            console.log(nodes);
+            console.log(edges);
+
+            var svg = d3.select("#my_related")
+                    .append("svg")
+                    .attr("preserveAspectRatio", "xMidYMid meet")
+                    .attr("viewBox", "-200 -260 1100 1100");
+
+            var svg_edges = svg.selectAll("line")
+                                .data(edges)
+                                .enter()
+                                .append("line")
+                                .style("stroke","#ccc")
+                                .style("stroke-width",5);
+
+            var color = d3.scale.category20();
+
+            var svg_nodes = svg.selectAll("circle")
+                .data(nodes)
+                .enter()
+                .append("circle")
+                .attr("r",10)
+                .style("fill",function(d,i){
+                    return color(i);
+                })
+                .call(force.drag)
+                .on("click", function (d) {
+                    click(d)
+                });
+            
+            var svg_texts = svg.selectAll("text.title")
+                .data(nodes)
+                .enter()
+                .append("text")
+                .style("fill", "white")
+                .attr("dx", -80)
+                .attr("dy", -10)
+                .text(function(d){
+                   return d.title;
+                }).on("click", function(d) { click(d)});
+
+            var svg_texts_url = svg.selectAll("text.url")
+                .data(nodes)
+                .enter()
+                .append("text")
+                .style("fill", "blue")
+                .attr("dx", -25)
+                .attr("dy", 20)
+                .attr("font-size",10)
+                .text(function(d){
+                   return "Video Link";
+                }).on("click", function(d) { window.open(d.url);})
+            
+            force.on("tick", function(){ 
+
+                svg_edges.attr("x1",function(d){ return d.source.x; })
+                    .attr("y1",function(d){ return d.source.y; })
+                    .attr("x2",function(d){ return d.target.x; })
+                    .attr("y2",function(d){ return d.target.y; });
+
+
+                svg_nodes.attr("cx",function(d){ return d.x; })
+                    .attr("cy",function(d){ return d.y; });
+
+
+                svg_texts.attr("x", function(d){ return d.x; })
+                   .attr("y", function(d){ return d.y; });
+
+                svg_texts_url.attr("x", function(d){ return d.x; })
+                   .attr("y", function(d){ return d.y; });
+             });
+        }
+
+        function click(node) {
+            console.log(node.title)
+            d3.selectAll("svg").remove();
+
+            var title = node.title
+
+            var related = getRelated(title)
+
+            var relatedArr = []
+
+            relatedArr.push(title)
+
+            console.log(related)
+            console.log(typeof(related))
+
+            for(let i = 0; i < related.length; i++){
+                relatedArr.push(related[i].title)
+            }
+
+            console.log(relatedArr)
+
+            var urlArr = []
+
+            for(let i = 0; i < relatedArr.length; i++){
+                for(let j = 0; j < data.length; j++){
+                    if(data[j].title === relatedArr[i]){
+                        urlArr.push(data[j].url)
+                    }
+                }
+            }
+
+            console.log(urlArr)
+
+            var nodes = []
+            for(let i = 0; i < relatedArr.length; i++){
+                var node = {
+                    title: relatedArr[i],
+                    url: urlArr[i]
+                };
+                nodes.push(node)
+            }
+            console.log(nodes)
+        
+            var edges = []
+            for(let i = 1; i < relatedArr.length; i++){
+                var edge = {
+                    source: 0,
+                    target: i
+                };
+                edges.push(edge)
+            }
+            console.log(edges)
+
+                genearteNetwork(nodes, edges)
+        }
+
+        function getRelated(title){
+            for(let i = 0; i < data.length; i++){
+                if (data[i].title === title){
+                    var relatedObj = data[i].related_talks
+                    break;
+                }
+            }
+            return relatedObj;
+        }
+         
+	</script>
+</body>
+</html>
