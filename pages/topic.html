@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html class="ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--><html class=""><!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+	<title>FindYourTED - Topics</title>
+
+	<!-- Standard Favicon -->
+	<link rel="icon" type="image/x-icon" href="images/logo.jpg" />
+	
+	<!-- For iPhone 4 Retina display: -->
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images//apple-touch-icon-114x114-precomposed.png">
+	
+	<!-- For iPad: -->
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images//apple-touch-icon-72x72-precomposed.png">
+	
+	<!-- For iPhone: -->
+	<link rel="apple-touch-icon-precomposed" href="images//apple-touch-icon-57x57-precomposed.png">	
+	
+	<!-- Library - Google Font Familys -->	
+	
+	<!-- Library - Bootstrap v3.3.5 -->
+    <link rel="stylesheet" type="text/css" href="libraries/lib.css">
+	
+	<!-- Custom - Common CSS -->
+	<link rel="stylesheet" type="text/css" href="css/plugins.css">
+	<link rel="stylesheet" type="text/css" href="css/navigation-menu.css">
+	
+	<!-- Custom - Theme CSS -->
+	<link rel="stylesheet" type="text/css" href="style.css" />
+	<link rel="stylesheet" type="text/css" href="css/shortcodes.css" />
+		
+	<!--[if lt IE 9]>
+		<script src="js/html5/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        div.tooltip {   
+          position: absolute;           
+          text-align: center;           
+          width: 100px;                  
+          height: 30px;                 
+          padding: 2px;             
+          font: 12px sans-serif;        
+          background: lightsteelblue;   
+          border: 0px;      
+          border-radius: 8px;           
+          pointer-events: none;         
+        }
+    </style>
+	
+</head>
+
+<body data-offset="200" data-spy="scroll" data-target=".ow-navigation">
+	<!-- Loader -->
+	<div id="site-loader" class="load-complete">
+		<div class="loader">
+			<div class="loader-inner ball-clip-rotate">
+				<div></div>
+			</div>
+		</div>
+	</div><!-- Loader /- -->
+
+	<a id="top"></a>
+		
+	<!-- Header Section -->
+	<header id="header" class="header-section header-position container-fluid no-padding">
+		<!-- Top Header -->
+		<div class="top-header container-fluid no-padding">
+			<!-- Container -->
+			<div class="container">
+				<div class="row">
+					<div class="logo-block col-md-3"><a href="main.html" title="FindTed"><img src="images/logo.jpg" alt="Logo" /></a></div>
+					<div class="col-md-9 contact-detail">
+						<div class="menu-search">
+							<div id="sb-search" class="sb-search">
+								<form>
+									<input class="sb-search-input" placeholder="Enter your search topic..." type="text" value="" name="search" id="search" />
+									<button type="button" class="sb-search-submit"><img src="images/search-ic.png" alt="Search" /></button>
+									<span class="sb-icon-search"></span>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div><!-- Container /- -->
+		</div><!-- Top Header /- -->
+		
+	</header><!-- Header Section /- -->
+	
+	<main class="site-main page-spacing">
+		<!-- Slider Section -->
+		<div id="slider-section" class="slider-section container-fluid no-padding">
+			<div id="photo-slider" class="carousel slide" data-ride="carousel">
+				<!-- Wrapper for slides -->
+				<div class="carousel-inner" role="listbox">
+					<div class="item active">
+						<img src="images/slider/jr-and-ted-logo.webp" alt="Slide" width="100%" style="opacity: 0.7;"/>
+						<div class="carousel-caption" id="my_topics" style="margin-top: 5%;">
+
+                            
+						</div>
+                        <div class="tooltip">
+                            <div>
+                                <a></a>
+                                <span></span>
+                            </div>
+                        </div>
+                        
+                        <div class="carousel-caption" style="margin-left: 70%;margin-top: 20%;">
+                            <a href="#" title="Change Topics" data-animation="animated fadeInUp" onclick="updataData()">change topics <i class="fa fa-long-arrow-right"></i></a>
+                        </div>
+					</div>	
+                    			
+				</div>
+                
+			</div>	
+        </div><!-- Slider Section /- -->
+		
+		
+	
+	<!-- JQuery v1.11.3 -->
+    <script src="js/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+	
+	<!-- Library JS -->
+	<script src="libraries/lib.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.0.0.js"></script>
+		
+	<!-- Library - Theme JS -->	
+	<script src="js/functions.js"></script>
+
+    <!-- Load d3.js -->
+    <script src="https://d3js.org/d3.v4.js"></script>
+
+
+    <script type="text/javascript">
+                
+        var data =  $.parseJSON($.ajax({
+            url: "https://raw.githubusercontent.com/YufeiLinUlysses/CS573_Final_Project/zeng/pages/data/tags.json",
+            dataType: "json",
+            async: false
+        }).responseText);
+        console.log(data);
+
+        console.log(typeof(data))
+        var topicArr = Object.keys(data);
+        console.log(topicArr)
+
+        topicArrNum = getTopics();
+        console.log("num:" + topicArrNum);
+        console.log(topicArr.length)
+
+        var topics = []
+
+        for( let i = 0; i < topicArrNum.length; i++){
+            topics.push(topicArr[topicArrNum[i]]);
+        }
+        //console.log(topics[0]);
+
+        var count = []
+
+        for(i in data) {
+            for(let j = 0; j < topics.length; j++){
+                if(i === topics[j]){
+                    //console.log(topics[j])
+                    count.push(data[i])
+                }
+            }
+        }
+
+        console.log("count:" + count)
+        //console.log(json.toy)
+                
+
+        dataset = {
+            "children": [{"Name":topics[0],"Count":count[0]},
+                {"Name":topics[1],"Count":count[1]},
+                {"Name":topics[2],"Count":count[2]},
+                {"Name":topics[3],"Count":count[3]},
+                {"Name":topics[4],"Count":count[4]},
+                {"Name":topics[5],"Count":count[5]},
+                {"Name":topics[6],"Count":count[6]},
+                {"Name":topics[7],"Count":count[7]},
+                {"Name":topics[8],"Count":count[8]},
+                {"Name":topics[9],"Count":count[9]},
+                {"Name":topics[10],"Count":count[10]},
+                {"Name":topics[11],"Count":count[11]},
+                {"Name":topics[12],"Count":count[12]},
+                {"Name":topics[13],"Count":count[13]},
+                {"Name":topics[14],"Count":count[14]},
+                {"Name":topics[15],"Count":count[15]},
+                {"Name":topics[16],"Count":count[16]},
+                {"Name":topics[17],"Count":count[17]},
+                {"Name":topics[18],"Count":count[18]},
+                {"Name":topics[19],"Count":count[19]}]
+        };
+
+        console.log(dataset)
+                
+        generateBubble(dataset);
+                
+        function randomInteger(min, max){
+            let rand = min + Math.random() * (max + 1 - min);
+            return Math.floor(rand);
+        }
+
+        function getTopics(){
+            //console.log("getTopics")
+            let randoms = [];
+            while(true) {
+                var isExists = false;
+                var random = randomInteger(0,415);
+                for (let i = 0; i < randoms.length; i++) {
+                    if (random === randoms[i]) {
+                        isExists = true;
+                        break;
+                    }
+                }
+                if(!isExists) {
+                    randoms.push(random);
+                }
+                if (randoms.length === 20){
+                    break;
+                }
+            }
+            //console.log(randoms)
+            return randoms;
+        }
+                
+        function generateBubble(dataset){
+            var children = dataset["children"];
+            console.log(typeof(children))
+            var size = Object.keys(children).length
+            console.log("dataset length:" + size)
+            //console.log(dataset)
+
+            if(size == 1){
+                var width = 200;
+                var height = 200;
+            }
+            else{
+                var width = 550;
+                var height = 550;
+            }
+
+            
+            var color = d3.scaleOrdinal(d3.schemeCategory20);
+        
+            var bubble = d3.pack(dataset)
+                .size([width, height])
+                .padding(2);
+            if(size == 1){
+                var svg = d3.select("#my_topics")
+                    .append("svg")
+                    .attr("preserveAspectRatio", "xMidYMid meet")
+                    .attr("viewBox", "-350 -350 1000 1000")
+                    .attr("class", "bubble");
+            }
+            else{
+                var svg = d3.select("#my_topics")
+                    .append("svg")
+                    .attr("preserveAspectRatio", "xMidYMid meet")
+                    .attr("viewBox", "-200 -220 1000 1000")
+                    .attr("class", "bubble");
+            }
+            
+
+            var div = d3.select("body").append("div")   
+                .attr("class", "tooltip")               
+                .style("opacity", 0);
+            
+            const tooltip = d3.select('.tooltip');
+        
+            var nodes = d3.hierarchy(dataset)
+                .sum(function(d) { return d.Count; });
+        
+            var node = svg.selectAll(".node")
+                .data(bubble(nodes).descendants())
+                .enter()
+                .filter(function(d){
+                    return  !d.children
+                })
+                .append("g")
+                .attr("class", "node")
+                .attr("transform", function(d) {
+                    return "translate(" + d.x + "," + d.y + ")";
+                });
+            
+            
+            node.append("circle")
+                .attr("r", function(d) {
+                    return d.r;
+                })
+                .style("fill", function(d,i) {
+                    return color(i);
+                })
+                .on('mouseover', function (d) {
+                    console.log(d)
+                    div.transition()        
+                        .duration(200)      
+                        .style("opacity", .9);      
+                    div .html(d.data.Name + "<br/>"  + d.data.Count)  
+                        .style("left", (d3.event.pageX) + "px")     
+                        .style("top", (d3.event.pageY - 28) + "px");
+
+                    d3.select(this).style('stroke', '#222');
+                })
+                .on('mouseout', function (d) {
+                    d3.select(this).style('stroke', 'none');
+                    div.transition()        
+                        .duration(500)      
+                        .style("opacity", 0);
+                    return tooltip.style('visibility', 'hidden');
+                })
+                .on("click", function(d){click(d)});
+            
+            node.append("text")
+                .attr("dy", ".2em")
+                .style("text-anchor", "middle")
+                .text(function(d) {
+                    return d.data.Name;
+                })
+                .attr("font-family", "sans-serif")
+                .attr("font-size", function(d){
+                    return d.r/5;
+                })
+                .attr("fill", "white");
+            
+            node.append("text")
+                .attr("dy", "1.3em")
+                .style("text-anchor", "middle")
+                .text(function(d) {
+                    return d.data.Count;
+                })
+                .attr("font-family",  "Gill Sans", "Gill Sans MT")
+                .attr("font-size", function(d){
+                    return d.r/5;
+                })
+                .attr("fill", "white");
+            
+            d3.select(self.frameElement)
+                .style("height", height + "px");
+            
+        }
+                
+        function click(data){
+            console.log("click")
+            console.log(data.data)
+            var topic = data.data.Name
+            console.log(topic)
+            //$.cookie('topic', topic)
+            localStorage.setItem('topic', topic)
+            window.open('./list.html');
+        }
+       
+        function updataData(){
+            console.log("update data")
+
+            d3.selectAll("svg").remove();
+
+            topicArrNum = getTopics();
+
+            var topics = []
+
+            for( let i = 0; i < topicArrNum.length; i++){
+                topics.push(topicArr[topicArrNum[i]]);
+            }
+            //console.log(topics[0]);
+
+            var count = []
+
+            for(i in data) {
+                for(let j = 0; j < topics.length; j++){
+                    if(i === topics[j]){
+                        //console.log(topics[j])
+                        count.push(data[i])
+                    }
+                }
+            }
+
+            dataset = {
+            "children": [{"Name":topics[0],"Count":count[0]},
+                {"Name":topics[1],"Count":count[1]},
+                {"Name":topics[2],"Count":count[2]},
+                {"Name":topics[3],"Count":count[3]},
+                {"Name":topics[4],"Count":count[4]},
+                {"Name":topics[5],"Count":count[5]},
+                {"Name":topics[6],"Count":count[6]},
+                {"Name":topics[7],"Count":count[7]},
+                {"Name":topics[8],"Count":count[8]},
+                {"Name":topics[9],"Count":count[9]},
+                {"Name":topics[10],"Count":count[10]},
+                {"Name":topics[11],"Count":count[11]},
+                {"Name":topics[12],"Count":count[12]},
+                {"Name":topics[13],"Count":count[13]},
+                {"Name":topics[14],"Count":count[14]},
+                {"Name":topics[15],"Count":count[15]},
+                {"Name":topics[16],"Count":count[16]},
+                {"Name":topics[17],"Count":count[17]},
+                {"Name":topics[18],"Count":count[18]},
+                {"Name":topics[19],"Count":count[19]}]
+            };
+                
+            generateBubble(dataset);
+        }
+
+        var input = document.getElementById("search");
+            input.addEventListener("keypress", function (event) {
+                // If the user presses the "Enter" key on the keyboard
+                if (event.key === "Enter") {
+                    //alert(input.value)
+                    const t = input.value
+                    console.log(input.value + ":" + data[input.value])
+                    var topics = []
+                    for(var i = 0; i < topicArr.length; i++){
+                        if (topicArr[i].match(t) != null){
+                            topics.push(topicArr[i])
+                        }
+                    }
+                    if(topics.length != 0){
+                        console.log(topics)
+                        var count = []
+
+                        for(i in data) {
+                            for(let j = 0; j < topics.length; j++){
+                                if(i === topics[j]){
+                                    //console.log(topics[j])
+                                    count.push(data[i])
+                                }
+                            }
+                        }
+                        console.log(count)
+                        var dataset = {}
+                        dataset.children = []
+
+                        for(var i = 0; i < topics.length; i++){
+                            var data1 = {}
+                            data1.Name = topics[i]
+                            data1.Count = count[i]
+                            dataset.children.push(data1)
+                        }
+                        console.log(dataset)
+
+                        d3.selectAll("svg").remove();
+                        generateBubble(dataset)
+                        event.preventDefault();
+                        return
+
+                    }
+                    else{
+                        alert("Please enter an existing topic.")
+                        event.preventDefault();
+                        return
+                    }
+                    
+                    //if (topicArr.includes(t)) {
+                    //    var dataset = {
+                    //        "children": [
+                    //            {
+                    //                "Name": t,
+                    //                "Count": data[t]
+                    //            }
+                    //        ]
+                    //    }
+                    //    d3.selectAll("svg").remove();
+                    //    generateBubble(dataset)
+                    //    event.preventDefault();
+                    //    localStorage.setItem('topicData', dataset)
+                    //    return
+                    //}
+                    //else {
+                    //    alert("Please enter an existing topic.")
+                    //}
+
+                    // search in data for the specifc value
+
+                }
+            });
+    
+	</script>
+    
+
+</body>
+</html>
