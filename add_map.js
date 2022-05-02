@@ -35,7 +35,7 @@
                 .attr("class", "town")
                 .attr('d', path)
                 .style('stroke', "white")
-                .style('fill', "blue");
+                .style('fill', "white");
 
         d3.csv("data/town_percents.csv", function(data) {
             
