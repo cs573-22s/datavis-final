@@ -1,7 +1,18 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
+df_fips = pd.read_csv("data/county_towns.csv")
+df_perc = pd.read_csv("data/percents.csv")
 
+df_perc['town'] = df_perc['town'].str.upper()
+df_perc['town'] = df_perc['town'].str.strip()
+df_join = df_fips.merge(df_perc, on='town', how='left')
+
+df_join.to_csv('data/town_percents.csv', index=False)
+
+
+
+'''
 df = pd.read_csv("data/neppcpr1901-data.csv")
 
 # df without unecessary cols
@@ -13,7 +24,12 @@ df_intr = df[['COUNTY NAME', 'CITY/TOWN NAME', 'NO. OF ELI RENT BURDENED (30%)',
 df_perc = df[['COUNTY NAME', 'CITY/TOWN NAME']]
 df_perc['PERCENT ELI'] = df_intr['NO. OF ELI HOUSEHOLDS'] / df_intr['NO. OF RENTER HOUSEHOLDS']
 df_perc['PERCENT RENT BURDENED ELI'] = df_intr['NO. OF ELI RENT BURDENED (30%)'] / df_intr['NO. OF ELI HOUSEHOLDS']
-print(df_intr.head(10))
+
+with open('percents.txt', 'w') as f:
+    for i in range(313):
+        text = df_perc['CITY/TOWN NAME'].iloc[i] + "," + str(df_perc['PERCENT ELI'].iloc[i]) + "\n"
+        f.write(text)
+'''
 
 '''
 # HOMEOWNERSHIP RACE DISPARITY
