@@ -1,8 +1,5 @@
-Final Project - Interactive Data Visualization  
+Final Project - Tuberculosis Dashboard
 ===
-
-# BCB502_Final_Project: Tuberculosis Dashboard
-
 ## Website
 Here is the [link](https://mnorales.github.io/BCB502_Final_Project/) to our project site.
 ## Screen-Cast
