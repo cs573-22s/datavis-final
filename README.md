@@ -1,6 +1,8 @@
 Final Project - Interactive Data Visualization  
 ===
+By: Eva Bruklich, Marcus Chalmers, Joseph Cybul, Jasper Meggitt
 
+This is our final project for CS573. More information about our accomplishments can be found in the Process Book. A brief code breakdown can be found below. 
 
 ### Process Book
 https://github.com/jcybul/datavis-final/blob/main/Process%20Book.pdf
