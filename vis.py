@@ -1,6 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
+
+#join data for geojson stuff
+
 df_fips = pd.read_csv("data/county_towns.csv")
 df_perc = pd.read_csv("data/percents.csv")
 
@@ -11,8 +14,9 @@ df_join = df_fips.merge(df_perc, on='town', how='left')
 df_join.to_csv('data/town_percents.csv', index=False)
 
 
-
 '''
+#bosfed data cleaning
+
 df = pd.read_csv("data/neppcpr1901-data.csv")
 
 # df without unecessary cols
@@ -30,6 +34,7 @@ with open('percents.txt', 'w') as f:
         text = df_perc['CITY/TOWN NAME'].iloc[i] + "," + str(df_perc['PERCENT ELI'].iloc[i]) + "\n"
         f.write(text)
 '''
+
 
 '''
 # HOMEOWNERSHIP RACE DISPARITY
