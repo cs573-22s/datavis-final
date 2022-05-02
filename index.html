@@ -21,14 +21,32 @@
             font-size: 2em;
             color:#325f75;
             font-weight: 100;
+            margin:auto;
+            margin-top:20px;
+            width: 75%;
         }
         h2 {
             font-size: 1.2em;
             color: #518096;
             font-weight: 800;
+            margin:auto;
+            margin-top:15px;
+            width: 90%;
+        }
+        h3 {
+            font-size: 1em;
+            color: #518096;
+            font-weight: 100;
+            margin:auto;
+            margin-top:5px;
+            width: 15%;
         }
         p {
             color: #1b1b1b;
+            margin:auto;
+            margin-top:20px;
+            margin-bottom:10px;
+            width: 90%;
         }
 
     </style>
@@ -46,53 +64,90 @@
 <body>
 
     <h1>Visualizing the Massachusetts Affordable Housing Crisis</h1><br>
-    <p>Lorem ipsum LOREM IPSUM</p><br>
+    <h3>Samantha Crepeau</h3>
+    <p>
+        According to the National Low Income Housing Coalition (NLIHC), the United States needs 6.8 million more affordable housing 
+        units for extremely low income (ELI) families. Affordable housing is housing that consumes less than 30% of a household's 
+        total income. In the United States, there is no state or county where a full-time minimum wage employee can afford to rent a 
+        two-bedroom apartment [1]. In Massachusetts, as of 2019, the average resident would need an hourly wage of $33.81
+        to afford a two-bedroom apartment [2]. Massachusetts faces a shortage of affordable and available rental housing for
+        extremely low income households. For those who are faced with high housing costs relative to their income, other stresses 
+        such as food security, health care, retirement cause increased financial strain [3]. Below, we use data visualizations
+        to illustrate the severity of the affordable housing crisis in Massachusetts, how it affects people, and which groups are 
+        disproportionately affected. 
+    </p><br>
 
     <h2>What is the affordable housing crisis?</h2>
-    <p>TEXT</p>
+    <p>
+        As stated, there is a shortage of affordable and available rental housing in Massachusetts. However, the affordable housing
+        crisis does not only affect renters. According to data provided by the Federal Reserve Bank of St.Louis, the median listing
+        price of houses in Massachusetts as of March 2022 was $699,450. The latest data from the US Census Bureau for the real 
+        median household income in MA is $86,725 as of 2020 [4]. As shown in the graph below, this value has remained fairly stagnant
+        compared to the median listing price in MA, which has skyrocketed since 2016. These values emphasize the sitation that people 
+        face upon looking to take steps toward homeownership.
+    </p>
     <div id="vis1"></div><br>
 
-    <h2>How does the affordable housing crisis affect people?</h2>
-    <p>TEXT</p>
+    <h2>How does the affordable housing crisis affect people across MA?</h2>
+    <p>In 2016, 79% of ELI renter households in Massachusetts were rent burdened, meaning that 30% or more of household income 
+        went toward paying rent. Housing cost burdened households are often pushed toward sacrificing necessities such as health care 
+        and food, or else risk eviction or homelessness [5]. The map below shows which towns have the highest percentage of ELI renter
+        households in MA. Mouse over the towns in order to view the town names and the corresponding percentage of ELI renter households. 
+    </p>
     <div id="map"></div><br>
     <!-- Map based on https://gist.github.com/michaschwab/411cbbd398e9b74e297f4aecf0410f70 -->
     <script src="add_map.js"></script> 
 
     <h2>Who is most affected?</h2>
-    <p>TEXT</p>
+    <p>
+        The affordable housing crisis does not affect everyone equally - certain groups are disproportionately impacted. Racial and ethnic 
+        minorities have historically been discouraged from purchasing houses [6]. There is a long history of housing discrimination in the United 
+        States, notably against Black Americans, and Massachusetts is not exempt from this history. The effects of housing discrimination 
+        in Massachusetts are still felt today [7]. The chart below illustrates the homeownership racial disparity in Massachusetts as of 2019, with data from 
+        the US Census Bureau.
+    </p>
     <div id="vis2"></div><br>
 
-    <h2>Side effects/The future</h2>
-    <p>TEXT</p>
-    <div id="vis4"></div>
+    <h2>The future</h2>
+    <p>When homeownership is unattainable and renting becomes severely burdensome, it begs the question of what the average person's 
+        future looks like in terms of possible living situations. Will there be generations of perpetual renters spending significant
+        portions of their income on rent with the dream of owning a house out of reach? It's impossible to forecast exactly what the 
+        situation will look like years from now, but what we can be sure of is that the affordable housing crisis affects much of the 
+        population, some groups more than others. It's imperative that we consider this crisis, its causes and effects, who suffers 
+        and who benefits from it, in order to improve the quality of life for all. 
+    </p>
+    <br>
+
+    <h2>References</h2>
+    <p>[1] https://nlihc.org/explore-issues/why-we-care/problem</p>
+    <p>[2] https://www.masslive.com/boston/2019/06/on-average-massachusetts-residents-need-to-make-3381-an-hour-to-afford-fair-market-rent-report-says.html</p>
+    <p>[3] https://www.forbes.com/sites/forbesnonprofitcouncil/2021/09/07/there-is-no-easy-fix-for-the-affordable-housing-crisis/?sh=577b0bc773b7</p>
+    <p>[4] https://fred.stlouisfed.org/graph/?id=MEDLISPRIMA,MEHOINUSMAA672N</p>
+    <p>[5] https://www.bostonfed.org/publications/new-england-public-policy-center-policy-report/2019/growing-shortage-affordable-housing-extremely-low-income-massachusetts.aspx</p>
+    <p>[6] https://www.americashealthrankings.org/explore/annual/measure/homeownership_disparity/state/MA</p>
+    <p>[7] https://www.masslive.com/boston/2020/07/study-shows-high-level-of-housing-discrimination-against-black-renters-people-with-section-8-vouchers-in-greater-boston.html</p>
+    
 
 </body>
 
 <style>
 
-    html {
-        display: table;
-        margin: auto;
-    }
-
-    body {
-        display: table-cell;
-        vertical-align: middle;
-    }
-
     #vis1 {
         margin: auto;
         width: 60%;
+        margin-top: 10px;
     }
 
     #map {
         margin: auto;
         width: 55%;
+        margin-top: 30px;
     }
 
     #vis2 {
         margin: auto;
         width: 70%;
+        margin-top: 10px;
     }
 
     .barToolTip {
