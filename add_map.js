@@ -40,7 +40,7 @@
         d3.csv("data/town_percents.csv", function(data) {
             
             var color = d3.scaleLinear().domain([d3.min(data, function(d) { return +(d.percent); }),d3.max(data, function(d) { return +(d.percent); })])
-                .range(["#85d1d4", "#164d66"])
+                .range(["#c3f5f7", "#164d66"])
 
             svg3.selectAll(".town")
                 .data(data)
@@ -70,7 +70,7 @@
 
             linearGradient.append("stop")
                 .attr("offset", "0%")
-                .attr("stop-color", "#85d1d4"); 
+                .attr("stop-color", "#c3f5f7"); 
 
             linearGradient.append("stop")
                 .attr("offset", "100%")
