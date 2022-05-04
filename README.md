@@ -9,7 +9,7 @@ Our team created a dashboard for the Covid-19 based on the positive patient data
 We use Django to as the framework and use MySQL as the database.
 
 ### Website
-- link: https://coldcode0214.github.io/datavis-final/
+- link: https://coldcode0214.github.io/datavis-final/ (We still have some problem about this website, it can only be opened on my own computer, otherwise, there maybe some pictures which can't be shown. We'll fix it as soon as possible on Wednesday...)
 
 ### Environment
 - Python 3.6 or above
